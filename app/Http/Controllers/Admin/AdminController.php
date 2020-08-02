@@ -14,7 +14,7 @@ class AdminController extends BaseController
      */
     public function index()
     {
-        //
+        return response(['message'=>'action as admin']);
     }
 
     /**
