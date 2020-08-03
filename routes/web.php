@@ -8,11 +8,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::group([
-    'as' => 'user.',
     'namespace' => 'User',
     'middleware' => ['auth']
 ], function () {
-    Route::resource('user','UserController')->names('admin');
+    Route::get('/home','UserController@index')->name('user.index');
+//
+//    Route::resource('user','UserController')->names('user');
 //    Route::get('/', 'HomeController@index')->name('home');
 });
 
