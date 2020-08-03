@@ -1,24 +1,26 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
-class AdminSeeder extends Seeder
+class UserSeeder extends Seeder
 {
-    private const PASSWORD = 'pajanik';
     /**
      * Run the database seeds.
      *
      * @return void
      */
+    protected const PASSWORD = 'pajanik';
     public function run()
     {
-        DB::table('admins')->insert([
+        DB::table('users')->insert([
             'email' => 'admin@pajanik.com',
-            'username' => 'admin',
+            'name' => 'admin',
             'password' => Hash::make(self::PASSWORD),
+            'is_admin' => true,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
     }
+
 }
