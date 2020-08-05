@@ -40,6 +40,7 @@ class LoginController extends Controller
     public function redirectPath()
     {
         if (auth()->user()->is_admin){
+
             return route('admin.index');
         }
         return route('user.index');
