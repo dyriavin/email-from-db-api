@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Email;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Email;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class EmailController extends BaseEmailController
 {
     /**
      * Display a listing of the resource.
@@ -15,15 +14,19 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::findOrFail(auth()->id());
-        return view('user.home');
+        //
     }
 
-    private function checkCredit()
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        $user = User::find(auth()->id());
-
+        //
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -38,10 +41,21 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Email  $email
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Email $email)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Email  $email
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Email $email)
     {
         //
     }
@@ -50,10 +64,10 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Email  $email
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Email $email)
     {
         //
     }
@@ -61,10 +75,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Email  $email
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Email $email)
     {
         //
     }
