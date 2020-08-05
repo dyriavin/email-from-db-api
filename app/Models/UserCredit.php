@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserCredit extends Model
 {
+    public const CREDIT_VALUE = 20000;
     protected $fillable = [
         'user_id',
         'credit'
     ];
-
     public function user()
     {
         return $this->belongsTo(User::class);
