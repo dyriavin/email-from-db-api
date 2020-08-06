@@ -12,64 +12,23 @@ use PhpParser\Node\Expr\Cast\Object_;
 
 class EmailController extends BaseEmailController
 {
-    /**
-     * @param int|null $limit
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     */
-    public static function getEmailData(? int $limit = 20)
+
+    public static function getEmailData(?int $limit = 20)
     {
-       return $emails = Email::paginate($limit);
+        return $emails = Email::paginate($limit);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param EmailRequest $request
-     * @return void
-     */
+
     public function index(EmailRequest $request)
     {
-        $user = User::find(auth()->id());
-        $limit = $user->credit->credit;
-        $from = $request->start_date;
-        $to = $request->end_date ? null : Carbon::today()->toDateString();
-
-        if (is_null($from) || is_null($to)) {
-            $emails = self::fetch($limit);
-        }
-        $emails = self::fetchByDate($limit,$from,$to);
-        dd($emails);
+        return view('user.results');
     }
 
-    /**
-     * @param int $limit
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     */
-    private function fetch(int $limit) : \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public function searchResults()
     {
-           return Email::where('given_to_user','>',0)
-               ->take($limit)
-               ->paginate(20);
+        return view('user.front');
     }
 
-    /**
-     * @param int $limit
-     * @param string $from
-     * @param string $to
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     */
-    private function fetchByDate(int $limit, string $from, string $to) : \Illuminate\Contracts\Pagination\LengthAwarePaginator
-    {
-
-        return  Email::where('given_to_user','>',0)
-            ->whereBetween('send_date',[$from,$to])
-            ->take($limit)->paginate(20);
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
@@ -78,7 +37,7 @@ class EmailController extends BaseEmailController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -89,30 +48,29 @@ class EmailController extends BaseEmailController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Email  $email
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Email $email
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function show(Email $email)
+    public function show(EmailRequest $request)
     {
-        //
+        $user = User::find(auth()->id());
+        $limit = $user->credit->credit;
+        $from = $request->start_date;
+        $to = $request->end_date ? null : Carbon::today()->toDateString();
+        if (is_null($from) || is_null($to)) {
+            $emails = self::fetch($limit);
+        } else {
+            $emails = self::fetchByDate($limit,$from,$to);
+        }
+        return view('user.front', compact('emails'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Email  $email
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Email $email)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Email  $email
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Email $email
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Email $email)
@@ -120,14 +78,25 @@ class EmailController extends BaseEmailController
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Email  $email
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Email $email)
+    private function fetch(int $limit)
     {
-        //
+        return [
+            'preview' => Email::where('given_to_user', '=', 0)
+                ->take(20)->orderBy('send_date','ASC')->get(),
+            'total' => Email::where('given_to_user', '=', 0)
+                ->take($limit)->get(),
+        ];
+    }
+
+    private function fetchByDate(int $limit, string $from, string $to)
+    {
+        return [
+            'preview' => Email::where('given_to_user', '=', 0)
+                ->whereBetween('send_date', [$from, $to])
+                ->take(20)->get(),
+            'total' => Email::where('given_to_user', '=', 0)
+                ->whereBetween('send_date', [$from, $to])
+                ->take($limit)->get()
+        ];
     }
 }

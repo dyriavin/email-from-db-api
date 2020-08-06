@@ -12,7 +12,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group([
     'namespace' => 'Email'
 ],function (){
-    Route::get('/search-email', 'EmailController@index')->name('email-form.index');
+    Route::get('/email','EmailController@index')->name('search.index');
+    Route::get('/search-email', 'EmailController@show')->name('email-form.index');
+    Route::get('/result','EmailController@searchResults')->name('search-results.index');
 
 });
 Route::group([

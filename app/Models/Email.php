@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 /**
  * App\Models\Email
@@ -31,7 +33,7 @@ use Illuminate\Database\Eloquent\Model;
 class Email extends Model
 {
     protected $fillable = [
-        'email','sender_email','delivery_status','send_date'
+        'email', 'sender_email', 'delivery_status', 'send_date'
     ];
     protected $visible = [
         'email',
