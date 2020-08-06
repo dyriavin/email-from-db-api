@@ -19,12 +19,16 @@ class UserController extends Controller
     {
         $user = User::findOrFail(auth()->id());
 
+
+
+        return view('user.front');
+    }
+    public function indexEmail()
+    {
+        $user = User::findOrFail(auth()->id());
         $emails = EmailController::getEmailData();
-
-
         return view('user.home',compact('emails'));
     }
-
     private function checkCredit()
     {
         $user = User::find(auth()->id());
