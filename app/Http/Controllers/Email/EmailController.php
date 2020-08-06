@@ -56,15 +56,21 @@ class EmailController extends BaseEmailController
         $user = User::find(auth()->id());
         $limit = $user->credit->credit;
         $from = $request->start_date;
-        $to = $request->end_date ? null : Carbon::today()->toDateString();
-        if (is_null($from) || is_null($to)) {
-            $emails = self::fetch($limit);
-        } else {
-            $emails = self::fetchByDate($limit,$from,$to);
-        }
-        return view('user.front', compact('emails'));
+        $to = $request->end_date ? $request->end_date : Carbon::today()->toDateString();
+
+        $emails = self::getEmails($from,$to,$limit);
+
+        return view('user.front', compact('emails', 'from', 'to'));
     }
 
+    public static function getEmails(string $from = null, string $to = null, int $limit = 0)
+    {
+        if (is_null($from) || is_null($to)) {
+            return self::fetch($limit);
+        } else {
+            return self::fetchByDate($limit, $from, $to);
+        }
+    }
 
     /**
      * Update the specified resource in storage.
@@ -78,17 +84,17 @@ class EmailController extends BaseEmailController
         //
     }
 
-    private function fetch(int $limit)
+    public static function fetch(int $limit)
     {
         return [
             'preview' => Email::where('given_to_user', '=', 0)
-                ->take(20)->orderBy('send_date','ASC')->get(),
+                ->take(20)->orderBy('send_date', 'ASC')->get(),
             'total' => Email::where('given_to_user', '=', 0)
                 ->take($limit)->get(),
         ];
     }
 
-    private function fetchByDate(int $limit, string $from, string $to)
+    public static function fetchByDate(int $limit, string $from, string $to)
     {
         return [
             'preview' => Email::where('given_to_user', '=', 0)

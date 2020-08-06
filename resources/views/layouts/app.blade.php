@@ -78,5 +78,10 @@
             </div>
         </main>
     </div>
+    <script>
+        function exportTasks(_this) {
+            window.location.href = $(_this).data('href');
+        }
+    </script>
 </body>
 </html>

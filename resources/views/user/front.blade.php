@@ -3,6 +3,14 @@
 
     <h1> Предпросмотр списка email  </h1>
 
+    <span data-href="{{route('csv-export')}}/"
+          @if(!is_null($from))
+          data-date-start="{{$from}}"
+          data-date-end="{{$to}}"
+          @endif
+          id="export" class="btn btn-success btn mb-2 " onclick="exportTasks(event.target);">
+        Скачать файл
+    </span>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -16,8 +24,6 @@
         <tbody>
         @foreach($emails['preview'] as $email)
             <tr>
-{{--                {{dd($email)}}--}}
-
                 <th scope="row">{{$email->id}}</th>
                 <td>{{$email->email}}</td>
                 <td>{{$email->sender_email}}</td>
