@@ -13,7 +13,8 @@ class ExportController extends BaseEmailController
     {
 
         $fileName = Carbon::now()->toDateString()."-file.csv";
-        $emails = EmailController::getEmails($from,$to,auth()->user()->credit->credit);
+        $limit = auth()->user()->credit->credit;
+        $emails = EmailController::getEmails($from,$to,$limit);
 
         $headers = [
             "Content-type"        => "text/csv",
@@ -40,7 +41,9 @@ class ExportController extends BaseEmailController
 
             fclose($file);
         };
+        $credit = auth()->user()->credit->credit - $limit;
 
+        auth()->user()->credit()->update(['credit'=> $credit]);
 
         return response()->stream($callback, 200, $headers);
     }
