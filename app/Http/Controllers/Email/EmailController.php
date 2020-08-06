@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class EmailController extends BaseEmailController
 {
+    public static function getEmailData(? int $limit = 20)
+    {
+       return $emails = Email::paginate($limit);
+    }
     /**
      * Display a listing of the resource.
      *

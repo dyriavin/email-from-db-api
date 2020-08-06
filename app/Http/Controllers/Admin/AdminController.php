@@ -14,7 +14,6 @@ class AdminController extends BaseController
      */
     public function index()
     {
-        dd(asset('js/app.js'));
         return view('admin.home');
     }
 
