@@ -10,7 +10,7 @@
         <div class="form-group">
             <label >Конечная дата:</label>
             <input type="date" name="end_date" min="2020-01-01"
-                   max="2020-06-30" class="form-control">
+                   max="2030-06-30" class="form-control">
         </div>
         <button type="submit" class="btn btn-primary">Получить список</button>
     </form>
