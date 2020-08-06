@@ -9,4 +9,10 @@ class Email extends Model
     protected $fillable = [
         'email','sender_email','delivery_status','send_date'
     ];
+    protected $visible = [
+        'email',
+        'sender_email',
+        'delivery_status',
+        'send_date'
+    ];
 }

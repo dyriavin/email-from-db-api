@@ -2,19 +2,26 @@
 
 namespace App\Http\Controllers\Email;
 
+use App\Http\Requests\EmailRequest;
 use App\Models\Email;
 use Illuminate\Http\Request;
 
 class EmailController extends BaseEmailController
 {
+    public static function getEmailData(? int $limit = 20)
+    {
+       return $emails = Email::paginate($limit);
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param EmailRequest $request
+     * @return void
      */
-    public function index()
+    public function index(EmailRequest $request)
     {
-        //
+        dd($request->input());
     }
 
     /**
