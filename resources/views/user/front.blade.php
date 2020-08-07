@@ -30,7 +30,7 @@
                 <th scope="col">Email</th>
                 <th scope="col">Email отправителя</th>
                 <th scope="col">Статус доставки </th>
-                <th scope="col">Дата отправки</th>
+
             </tr>
             </thead>
             <tbody>
@@ -50,7 +50,7 @@
                     </span>
                         @endif
                     </td>
-                    <td>{{$email->send_date}}</td>
+
                 </tr>
             @endforeach
 
