@@ -10,7 +10,8 @@
 
         </div>
         <div class="justify-content-center">
-            <a href="{{route('email.index')}}" class="btn btn-warning text-center align-items-center">
+            <a href="{{route('email.index')}}"
+               class="btn btn-warningtext-center align-items-center">
                 Назад
             </a>
         </div>
