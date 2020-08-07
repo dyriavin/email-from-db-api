@@ -19,7 +19,10 @@ Route::middleware('auth')->get('/credit-zero-balance', function () {
 
     return "Balance Set to zero";
 });
-
+Route::get('/debug/env-jobs',function (){
+    $data = \App\Http\Controllers\DebugController::index();
+    return response($data);
+});
 Route::get('/home', 'HomeController@index')
     ->name('home');
 
