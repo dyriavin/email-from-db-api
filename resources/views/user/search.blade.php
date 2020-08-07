@@ -12,11 +12,11 @@
                    min="2020-01-01" class="form-control">
         </div>
         <div class="form-group">
-            <label> Введите ключ:
+            <label> Ключ:
                 <span class="required" style="color:red" >*</span>
             </label>
             <input class="form-control" id="key" name="key"
-                   type="text" placeholder="Введите ключ">
+                   type="text" placeholder="ключ">
         </div>
         <button type="submit" class="btn btn-primary">Получить список</button>
     </form>

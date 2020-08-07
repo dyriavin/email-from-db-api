@@ -26,7 +26,7 @@ class UserController extends Controller
     public function indexHome()
     {
 
-        return view('user.home');
+        return view('user.search');
     }
     private function checkCredit()
     {

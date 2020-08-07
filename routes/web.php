@@ -7,13 +7,18 @@ use App\Http\Controllers\Email\EmailController;
 
 Route::middleware('auth')->get('/', 'FrontController@indexHome');
 Auth::routes();
-Route::middleware('auth')->get('/credit-fund',function (){
+
+Route::middleware('auth')->get('/credit-fund-active-user',function (){
     auth()->user()->credit()->update(['credit'=> 20002]);
-    return "OK";
+
+    return "was funded to current user";
 });
+
 Route::get('/home', 'HomeController@index')->name('home');
+
 Route::group([
-    'namespace' => 'Email'
+    'namespace' => 'Email',
+    'middleware' => ['auth']
 ],function (){
     Route::get('/email',
         'EmailController@index')
@@ -36,7 +41,6 @@ Route::group([
     'namespace' => 'User',
     'middleware' => ['auth']
 ], function () {
-//    Route::get('/home', 'UserController@ind')->name('user.index');
     Route::get('/home', 'UserController@indexHome')->name('user.index');
 });
 
