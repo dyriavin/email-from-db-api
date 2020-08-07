@@ -14,9 +14,11 @@ class FrontController extends Controller
     public function index()
     {
         return view('guest.auth');
+
     }
     public function indexHome(){
-        return view('user.home');
+
+        return view('user.search');
     }
 
     /**

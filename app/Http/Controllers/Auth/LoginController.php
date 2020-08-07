@@ -43,6 +43,6 @@ class LoginController extends Controller
 
             return route('admin.index');
         }
-        return route('user.index');
+        return route('email.index');
     }
 }
