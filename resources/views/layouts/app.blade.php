@@ -35,7 +35,7 @@
                     @auth
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('search.index') }}">Test</a>
+                            <a class="nav-link" href="{{ route('email.index') }}">Test</a>
                         </li>
                         @endauth
                     </ul>

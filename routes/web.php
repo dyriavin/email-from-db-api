@@ -15,10 +15,21 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group([
     'namespace' => 'Email'
 ],function (){
-    Route::get('/email','EmailController@index')->name('search.index');
-    Route::get('/search-email', 'EmailController@show')->name('email-form.index');
-    Route::get('/result','EmailController@searchResults')->name('search-results.index');
-    Route::get('/export/{from?}/{to?}', 'ExportController@export')->name('csv-export');
+    Route::get('/email',
+        'EmailController@index')
+        ->name('email.index');
+
+    Route::post('/email-search',
+        'EmailController@submit')
+        ->name('email.search');
+
+    Route::get('/result',
+        'EmailController@searchResults')
+        ->name('email.result');
+
+    Route::get('/export/{key?}/{from?}/{to?}',
+        'ExportController@export')
+        ->name('csv-export');
 
 });
 Route::group([

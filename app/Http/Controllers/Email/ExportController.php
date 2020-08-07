@@ -11,13 +11,12 @@ use Illuminate\Http\Request;
 
 class ExportController extends BaseEmailController
 {
-    public function export(?string $from = null, ?string $to = null)
+    public function export(?string $hash,?string $from = null, ?string $to = null)
     {
-
+        $key = base64_decode($hash);
         $fileName = Carbon::now()->toDateString() . "-file.csv";
         $limit = auth()->user()->credit->credit;
-        $emails = EmailController::getEmails($from, $to, $limit);
-
+        $emails = EmailController::getEmails($from, $to, $limit,$key);
         $headers = [
             "Content-type" => "text/csv",
             "Content-Disposition" => "attachment; filename=$fileName",
@@ -26,7 +25,7 @@ class ExportController extends BaseEmailController
             "Expires" => "0"
         ];
 
-        $columns = ['ID', 'EMAIL', 'SENDER EMAIL', 'DELIVERY STATUS ', 'SEND DATE'];
+        $columns = ['ID', 'EMAIL', 'SENDER EMAIL', 'DELIVERY STATUS'];
         $callback = function () use ($emails, $columns) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
@@ -36,15 +35,13 @@ class ExportController extends BaseEmailController
                 $row['EMAIL'] = $email->email;
                 $row['SENDER EMAIL'] = $email->sender_email;
                 $row['DELIVERY STATUS'] = $email->delivery_status;
-                $row['SEND DATE'] = $email->send_date;
-
-                fputcsv($file, [$row['ID'], $row['EMAIL'], $row['SENDER EMAIL'], $row['DELIVERY STATUS'], $row['SEND DATE']]);
+                fputcsv($file, [$row['ID'],$row['EMAIL'], $row['SENDER EMAIL'], $row['DELIVERY STATUS'] ]);
             }
 
             fclose($file);
         };
         $credit = auth()->user()->credit->credit - $limit;
-
+        EmailController::update($emails['total']->pluck('id'));
         auth()->user()->credit()->update(['credit' => $credit]);
 
         UserCreditController::updateCreditBalance(auth()->id());

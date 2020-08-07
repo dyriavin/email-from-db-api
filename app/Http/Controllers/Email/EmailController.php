@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Email;
 
-use App\Http\Requests\EmailRequest;
 use App\Models\Email;
 use App\Models\User;
 use Carbon\Carbon;
@@ -13,15 +12,9 @@ use PhpParser\Node\Expr\Cast\Object_;
 class EmailController extends BaseEmailController
 {
 
-    public static function getEmailData(?int $limit = 20)
+    public function index()
     {
-        return $emails = Email::paginate($limit);
-    }
-
-
-    public function index(EmailRequest $request)
-    {
-        return view('user.results');
+        return view('user.search');
     }
 
     public function searchResults()
@@ -29,80 +22,87 @@ class EmailController extends BaseEmailController
         return view('user.front');
     }
 
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Email $email
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @param Request $request
+     * @return string
      */
-    public function show(EmailRequest $request)
+    public function submit(Request $request)
     {
-        $user = User::find(auth()->id());
-        $limit = $user->credit->credit;
-        $from = $request->start_date;
-        $to = $request->end_date ? $request->end_date : Carbon::today()->toDateString();
-
-        $emails = self::getEmails($from,$to,$limit);
-
-        return view('user.front', compact('emails', 'from', 'to'));
+        return self::search($request->validate(
+            ['key' => 'required',
+             'start_date' => 'nullable']
+        ));
     }
 
-    public static function getEmails(string $from = null, string $to = null, int $limit = 0)
+    public function search(array $data)
+    {
+        $key = base64_decode($data['key']);
+        $hash = $data['key'];
+        $user = User::find(auth()->id());
+        $limit = $user->credit->credit;
+        $from = $data['start_date'];
+        $to = Carbon::today()->toDateString();
+
+        $emails = self::getEmails($from, $to, $limit,$key);
+        $emails = $emails['preview'];
+        return view('user.front',compact('emails','from','to','hash'));
+    }
+
+
+    public static function getEmails(string $from = null, string $to = null, int $limit = 0,string $email = null)
     {
         if (is_null($from) || is_null($to)) {
-            return self::fetch($limit);
+            return self::fetch($limit,$email);
         } else {
-            return self::fetchByDate($limit, $from, $to);
+            return self::fetchByDate($limit, $from, $to,$email);
         }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Email $email
-     * @return \Illuminate\Http\Response
+     * @param array $ids
+     * @return void
      */
-    public function update(Request $request, Email $email)
+    public static function update($ids)
     {
-        //
+        Email::whereIn('id',$ids)->update(['given_to_user' => 1]);
     }
 
-    public static function fetch(int $limit)
+    public static function fetch(int $limit,string $senderEmail)
     {
         return [
-            'preview' => Email::where('given_to_user', '=', 0)
-                ->take(20)->orderBy('send_date', 'ASC')->get(),
-            'total' => Email::where('given_to_user', '=', 0)
-                ->take($limit)->get(),
+            'preview' => Email::where([
+                ['given_to_user', '=', 0],
+                ['sender_email','=',$senderEmail]])
+                ->take(20)
+                ->orderBy('send_date', 'ASC')
+                ->get(),
+            'total' => Email::where([
+                ['given_to_user', '=', 0],
+                ['sender_email','=',$senderEmail]])
+                ->take($limit)
+                ->get(),
         ];
     }
 
-    public static function fetchByDate(int $limit, string $from, string $to)
+    public static function fetchByDate(int $limit, string $from, string $to,string $senderEmail)
     {
         return [
-            'preview' => Email::where('given_to_user', '=', 0)
+            'preview' => Email::where([
+                ['given_to_user', '=', 0],
+                ['sender_email','=',$senderEmail]])
                 ->whereBetween('send_date', [$from, $to])
-                ->take(20)->get(),
-            'total' => Email::where('given_to_user', '=', 0)
+                ->take(20)
+                ->get(),
+            'total' => Email::where([
+                ['given_to_user', '=', 0],
+                ['sender_email','=',$senderEmail]])
                 ->whereBetween('send_date', [$from, $to])
-                ->take($limit)->get()
+                ->take($limit)
+                ->get()
         ];
     }
 }
