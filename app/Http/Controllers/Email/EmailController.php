@@ -63,13 +63,12 @@ class EmailController extends BaseEmailController
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Email $email
-     * @return \Illuminate\Http\Response
+     * @param array $ids
+     * @return void
      */
-    public function update(Request $request, Email $email)
+    public static function update($ids)
     {
-        //
+        Email::whereIn('id',$ids)->update(['given_to_user' => 1]);
     }
 
     public static function fetch(int $limit,string $senderEmail)

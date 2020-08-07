@@ -24,6 +24,7 @@ class ExportController extends BaseEmailController
             "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
             "Expires" => "0"
         ];
+
         $columns = ['ID', 'EMAIL', 'SENDER EMAIL', 'DELIVERY STATUS'];
         $callback = function () use ($emails, $columns) {
             $file = fopen('php://output', 'w');
@@ -40,7 +41,7 @@ class ExportController extends BaseEmailController
             fclose($file);
         };
         $credit = auth()->user()->credit->credit - $limit;
-
+        EmailController::update($emails['total']->pluck('id'));
         auth()->user()->credit()->update(['credit' => $credit]);
 
         UserCreditController::updateCreditBalance(auth()->id());
