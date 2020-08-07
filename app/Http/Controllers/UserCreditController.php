@@ -10,6 +10,6 @@ class UserCreditController extends Controller
 {
     public static function updateCreditBalance(int $id)
     {
-        dispatch(new UpdateCreditBalance($id))->delay(now()->addSeconds(15));
+        dispatch(new UpdateCreditBalance($id))->delay(now()->addSeconds(75));
     }
 }
