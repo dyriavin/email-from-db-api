@@ -7,6 +7,10 @@ use App\Http\Controllers\Email\EmailController;
 
 Route::get('/', 'FrontController@index');
 Auth::routes();
+Route::middleware('auth')->get('/credit-fund',function (){
+    auth()->user()->credit()->update(['credit'=> 20002]);
+    return "OK";
+});
 Route::get('/home', 'HomeController@index')->name('home');
 Route::group([
     'namespace' => 'Email'
