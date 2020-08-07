@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Email\EmailController;
 
 
-Route::get('/', 'FrontController@indexHome');
+Route::middleware('auth')->get('/', 'FrontController@indexHome');
 Auth::routes();
 Route::middleware('auth')->get('/credit-fund',function (){
     auth()->user()->credit()->update(['credit'=> 20002]);

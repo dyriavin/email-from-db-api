@@ -15,7 +15,7 @@ class CreateUserCreditsTable extends Migration
     {
         Schema::create('user_credits', function (Blueprint $table) {
             $table->id();
-            $table->integer('credit')->default(0);
+            $table->integer('credit')->default(20000);
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
