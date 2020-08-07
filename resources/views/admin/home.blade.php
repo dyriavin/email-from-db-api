@@ -1,29 +1,31 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h1 class="font-weight-bolder text-uppercase mt-2 text-center">Admin Area</h1>
+    <h4 class="font-weight-bolder text-uppercase mt-5 text-center">Автоматические пополнения баланса</h4>
+{{--    {{dd($jobs)}}--}}
+    <table class="table table-striped table-dark">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Тип</th>
+            <th scope="col">Будет доступно</th>
+            <th scope="col">Добавлено </th>
+            <th scope="col">Попыток </th>
+        </tr>
+        </thead>
 
-    <div class="row">
-        <!--total used db -->
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-    </div>
+        <tbody>
+        @foreach($jobs as $job)
+        <tr>
+            <th scope="row">{{$job->id}}</th>
+            <td>{{$job->queue}}</td>
+            <td>{{ date("Y-m-d H:i:s", substr($job->available_at, 0, 10)) }}</td>
+            <td>{{ date("Y-m-d H:i:s", substr($job->created_at, 0, 10))  }}</td>
+            <td>{{$job->attempts}}</td>
+        </tr>
+        @endforeach
+        </tbody>
+    </table>
     <h3 class="font-weight-bolder text-uppercase mt-5 text-center">List of active users</h3>
     @include('messages')
     <table class="table table-hover alert-info">
