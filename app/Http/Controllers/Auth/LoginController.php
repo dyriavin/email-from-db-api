@@ -42,6 +42,7 @@ class LoginController extends Controller
         if (auth()->user()->is_admin){
 
             return route('admin.index');
+
         }
         return route('email.index');
     }
