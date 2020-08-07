@@ -2,7 +2,6 @@
 @section('content')
 
     <h1> Предпросмотр списка email  </h1>
-
     <span data-href="{{route('csv-export')}}/"
           @if(!is_null($from))
           data-date-start="{{$from}}"

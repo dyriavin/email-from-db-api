@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Email;
 
-use App\Http\Requests\EmailRequest;
 use App\Models\Email;
 use App\Models\User;
 use Carbon\Carbon;
@@ -13,15 +12,9 @@ use PhpParser\Node\Expr\Cast\Object_;
 class EmailController extends BaseEmailController
 {
 
-    public static function getEmailData(?int $limit = 20)
+    public function index()
     {
-        return $emails = Email::paginate($limit);
-    }
-
-
-    public function index(EmailRequest $request)
-    {
-        return view('user.results');
+        return view('user.search');
     }
 
     public function searchResults()
@@ -29,39 +22,33 @@ class EmailController extends BaseEmailController
         return view('user.front');
     }
 
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Email $email
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @param Request $request
+     * @return string
      */
-    public function show(EmailRequest $request)
+    public function submit(Request $request)
     {
+        return self::search($request->validate(
+            ['api_key' => 'required',
+             'start_date' => 'nullable']
+        ));
+    }
+
+    public function search(array $data)
+    {
+        $apiKey = base64_decode($data['api_key']);
+
         $user = User::find(auth()->id());
         $limit = $user->credit->credit;
-        $from = $request->start_date;
-        $to = $request->end_date ? $request->end_date : Carbon::today()->toDateString();
+        $from = $data['start_date'];
+        $to = Carbon::today()->toDateString();
 
-        $emails = self::getEmails($from,$to,$limit);
-
-        return view('user.front', compact('emails', 'from', 'to'));
+        $emails = self::getEmails($from, $to, $limit);
+        return view('user.front',compact('emails','from','to','apiKey'));
     }
+
 
     public static function getEmails(string $from = null, string $to = null, int $limit = 0)
     {
