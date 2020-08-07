@@ -15,14 +15,19 @@
 
     @else
         <h1> Предпросмотр списка email  </h1>
+            <span data-href="{{route('email.index')}}"
+                  id="back" class="btn btn-primary btn mb-2 "
+                  onclick="exportTasks(event.target);">
+                  Назад
+            </span>
         <span data-href="{{route('csv-export')}}/{{$hash}}/"
               @if(!is_null($from))
               data-date-start="{{$from}}"
               data-date-end="{{$to}}"
               @endif
               id="export" class="btn btn-success btn mb-2 " onclick="exportTasks(event.target);">
-        Скачать файл
-    </span>
+            Скачать файл
+            </span>
         <table class="table table-hover">
             <thead>
             <tr>
