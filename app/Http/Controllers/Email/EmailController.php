@@ -31,31 +31,32 @@ class EmailController extends BaseEmailController
     public function submit(Request $request)
     {
         return self::search($request->validate(
-            ['api_key' => 'required',
+            ['key' => 'required',
              'start_date' => 'nullable']
         ));
     }
 
     public function search(array $data)
     {
-        $apiKey = base64_decode($data['api_key']);
+        $apiKey = base64_decode($data['key']);
 
         $user = User::find(auth()->id());
         $limit = $user->credit->credit;
         $from = $data['start_date'];
         $to = Carbon::today()->toDateString();
 
-        $emails = self::getEmails($from, $to, $limit);
+        $emails = self::getEmails($from, $to, $limit,$apiKey);
+        $emails = $emails['preview'];
         return view('user.front',compact('emails','from','to','apiKey'));
     }
 
 
-    public static function getEmails(string $from = null, string $to = null, int $limit = 0)
+    public static function getEmails(string $from = null, string $to = null, int $limit = 0,string $email = null)
     {
         if (is_null($from) || is_null($to)) {
-            return self::fetch($limit);
+            return self::fetch($limit,$email);
         } else {
-            return self::fetchByDate($limit, $from, $to);
+            return self::fetchByDate($limit, $from, $to,$email);
         }
     }
 
@@ -71,25 +72,38 @@ class EmailController extends BaseEmailController
         //
     }
 
-    public static function fetch(int $limit)
+    public static function fetch(int $limit,string $senderEmail)
     {
         return [
-            'preview' => Email::where('given_to_user', '=', 0)
-                ->take(20)->orderBy('send_date', 'ASC')->get(),
-            'total' => Email::where('given_to_user', '=', 0)
-                ->take($limit)->get(),
+            'preview' => Email::where([
+                ['given_to_user', '=', 0],
+                ['sender_email','=',$senderEmail]])
+                ->take(20)
+                ->orderBy('send_date', 'ASC')
+                ->get(),
+            'total' => Email::where([
+                ['given_to_user', '=', 0],
+                ['sender_email','=',$senderEmail]])
+                ->take($limit)
+                ->get(),
         ];
     }
 
-    public static function fetchByDate(int $limit, string $from, string $to)
+    public static function fetchByDate(int $limit, string $from, string $to,string $senderEmail)
     {
         return [
-            'preview' => Email::where('given_to_user', '=', 0)
+            'preview' => Email::where([
+                ['given_to_user', '=', 0],
+                ['sender_email','=',$senderEmail]])
                 ->whereBetween('send_date', [$from, $to])
-                ->take(20)->get(),
-            'total' => Email::where('given_to_user', '=', 0)
+                ->take(20)
+                ->get(),
+            'total' => Email::where([
+                ['given_to_user', '=', 0],
+                ['sender_email','=',$senderEmail]])
                 ->whereBetween('send_date', [$from, $to])
-                ->take($limit)->get()
+                ->take($limit)
+                ->get()
         ];
     }
 }
