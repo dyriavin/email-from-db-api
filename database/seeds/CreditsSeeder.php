@@ -16,7 +16,7 @@ class CreditsSeeder extends Seeder
         foreach ($ids as $id) {
             DB::table('user_credits')
                 ->insert(['user_id' => $id,
-                    'credit' => 2000,
+                    'credit' => rand(17380,24108),
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()]);
         }
