@@ -1,17 +1,10 @@
 @extends('layouts.app')
 @section('content')
-    <h1> Список email  </h1>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Email</th>
-            <th scope="col">Email отправителя</th>
-            <th scope="col">Статус доставки </th>
-            <th scope="col">Дата отправки</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+    <div class="card text-center">
+
+        <div class="card-body">
+            <p class="card-text">Перейдите по ссылке что бы получить email адреса </p>
+            <a href="{{route('search.index')}}" class="btn btn-primary">Email </a>
+        </div>
+    </div>
 @endsection
