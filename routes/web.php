@@ -8,21 +8,21 @@ use App\Http\Controllers\Email\EmailController;
 Route::middleware('auth')->get('/', 'FrontController@indexHome');
 Auth::routes();
 
-Route::middleware('auth')->get('/credit-fund-active-user', function () {
+Route::prefix('admin')
+    ->middleware('auth')
+    ->get('/credit-fund-active-user', function () {
     auth()->user()->credit()->update(['credit' => 20002]);
 
     return "was funded to current user";
 });
 
-Route::middleware('auth')->get('/credit-zero-balance', function () {
+Route::prefix('admin')->middleware('auth')
+    ->get('/credit-zero-balance', function () {
     auth()->user()->credit()->update(['credit' => 0]);
 
     return "Balance Set to zero";
 });
-Route::get('/debug/env-jobs',function (){
-    $data = \App\Http\Controllers\DebugController::index();
-    return response($data);
-});
+
 Route::get('/home', 'HomeController@index')
     ->name('home');
 
@@ -59,6 +59,11 @@ Route::group([
     'namespace' => 'Admin',
     'middleware' => ['auth', 'admin']
 ], function () {
+
+    Route::prefix('admin')->get('/debug/env-jobs',function (){
+        $data = \App\Http\Controllers\DebugController::index();
+        return response($data);
+    });
     Route::resource('admin', 'AdminController')
         ->names('admin');
     Route::post('/update-balance',
