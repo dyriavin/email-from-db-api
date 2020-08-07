@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Jobs;
+
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+
+class UpdateCreditBalance implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    protected $userId;
+    protected $credit;
+
+    /**
+     * Create a new job instance.
+     *
+     * @param $userId
+     */
+    public function __construct($userId)
+    {
+        $this->userId = $userId;
+        $this->credit = rand(17380,24108);
+    }
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        $user = User::find($this->userId);
+        $user->credit()->update(['credit' => $this->credit]);
+    }
+}
