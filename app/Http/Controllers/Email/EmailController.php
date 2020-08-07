@@ -9,24 +9,32 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use PhpParser\Node\Expr\Cast\Object_;
 
+/**
+ * Class EmailController
+ * @package App\Http\Controllers\Email
+ */
 class EmailController extends BaseEmailController
 {
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         return view('user.search');
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function searchResults()
     {
         return view('user.front');
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param Request $request
-     * @return string
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function submit(Request $request)
     {
@@ -36,6 +44,10 @@ class EmailController extends BaseEmailController
         ));
     }
 
+    /**
+     * @param array $data
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function search(array $data)
     {
         $key = base64_decode($data['key']);
@@ -51,7 +63,14 @@ class EmailController extends BaseEmailController
     }
 
 
-    public static function getEmails(string $from = null, string $to = null, int $limit = 0,string $email = null)
+    /**
+     * @param string|null $from
+     * @param string|null $to
+     * @param int $limit
+     * @param string|null $email
+     * @return array
+     */
+    public static function getEmails(string $from = null, string $to = null, int $limit = 0, string $email = null)
     {
         if (is_null($from) || is_null($to)) {
             return self::fetch($limit,$email);
@@ -61,17 +80,19 @@ class EmailController extends BaseEmailController
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param array $ids
-     * @return void
+     * @param $ids
      */
     public static function update($ids)
     {
         Email::whereIn('id',$ids)->update(['given_to_user' => 1]);
     }
 
-    public static function fetch(int $limit,string $senderEmail)
+    /**
+     * @param int $limit
+     * @param string $senderEmail
+     * @return array
+     */
+    public static function fetch(int $limit, string $senderEmail)
     {
         return [
             'preview' => Email::where([
@@ -88,7 +109,14 @@ class EmailController extends BaseEmailController
         ];
     }
 
-    public static function fetchByDate(int $limit, string $from, string $to,string $senderEmail)
+    /**
+     * @param int $limit
+     * @param string $from
+     * @param string $to
+     * @param string $senderEmail
+     * @return array
+     */
+    public static function fetchByDate(int $limit, string $from, string $to, string $senderEmail)
     {
         return [
             'preview' => Email::where([
