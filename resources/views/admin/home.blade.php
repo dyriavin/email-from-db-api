@@ -1,34 +1,61 @@
 @extends('layouts.admin')
 
 @section('content')
-    <table class="table">
+    <h1 class="font-weight-bolder text-uppercase mt-2 text-center">Admin Area</h1>
+
+    <div class="row">
+        <!--total used db -->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h3 class="font-weight-bolder text-uppercase mt-5 text-center">List of active users</h3>
+    @include('messages')
+    <table class="table table-hover alert-info">
         <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+        <tr class="font-weight-bolder text-uppercase">
+            <th scope="col">ID</th>
+            <th scope="col">User Email</th>
+            <th scope="col">User Name</th>
+            <th scope="col">User Credit</th>
+            <th scope="col">Add credit</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
+        @foreach($users as $user)
+        <tr class="font-weight-lighter">
+            <th scope="row">{{$user->id}}</th>
+            <td>{{$user->email}}</td>
+            <td>{{$user->name}}</td>
+            <td>{{$user->credit->credit}}</td>
+            <td>
+                <form action="{{route('update.balance')}}" method="post">
+                    @csrf
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="text" name="credit" id="credit" value="20000">
+                        <input type="hidden" name="user_id" value="{{$user->id}}">
+                        <button type="submit" class="btn btn-success btn-sm">+</button>
+                    </div>
+
+                </form>
+            </td>
         </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-        </tr>
+        @endforeach
         </tbody>
     </table>
 @endsection

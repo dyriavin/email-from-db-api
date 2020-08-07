@@ -18,7 +18,7 @@ class FrontController extends Controller
     }
     public function indexHome(){
         if (auth()->user()->is_admin) {
-            return view('admin.home');
+            return redirect()->route('admin.index');
         }
         return view('user.search');
     }

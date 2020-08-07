@@ -61,4 +61,7 @@ Route::group([
 ], function () {
     Route::resource('admin', 'AdminController')
         ->names('admin');
+    Route::post('/update-balance',
+        'UserControlController@updateBalance')
+        ->name('update.balance');
 });

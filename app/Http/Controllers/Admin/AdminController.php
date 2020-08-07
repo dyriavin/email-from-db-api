@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminController extends BaseController
@@ -14,7 +15,10 @@ class AdminController extends BaseController
      */
     public function index()
     {
-        return view('admin.home');
+        $users = User::all();
+
+
+        return view('admin.home',compact('users'));
     }
 
     /**
