@@ -13,14 +13,25 @@ class UserSeeder extends Seeder
     protected const PASSWORD = 'pajanik';
     public function run()
     {
-        DB::table('users')->insert([
-            'email' => 'admin@pajanik.com',
-            'name' => 'admin',
-            'password' => Hash::make(self::PASSWORD),
-            'is_admin' => true,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
+        $users = [
+            [
+                'email' => 'admin@pajanik.com',
+                'name' => 'admin',
+                'password' => Hash::make(self::PASSWORD),
+                'is_admin' => true,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'email' => 'heferttt@gmail.com',
+                'name' => 'Артём',
+                'password' => Hash::make('Karina2019'),
+                'is_admin' => false,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]
+        ];
+        DB::table('users')->insert($users);
     }
 
 }
