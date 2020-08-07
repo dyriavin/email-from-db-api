@@ -21,7 +21,8 @@ Route::group([
     'namespace' => 'User',
     'middleware' => ['auth']
 ], function () {
-    Route::get('/home', 'UserController@index')->name('user.index');
+//    Route::get('/home', 'UserController@ind')->name('user.index');
+    Route::get('/home', 'UserController@indexEmail')->name('user.index');
 });
 
 Route::group([

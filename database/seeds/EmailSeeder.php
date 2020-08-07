@@ -20,7 +20,7 @@ class EmailSeeder extends Seeder
             foreach ($email as $eml) {
                 $deliveryStatus = (rand(1, 50) > 10) ? "delivered" : "failed";
                 $faker = \Faker\Factory::create();
-                $date = $faker->dateTimeBetween('01.01.2020', '30.06.2020');
+                $date = $faker->dateTimeBetween('23.12.2019', '03.06.2020');
                 DB::table('emails')->insert([
                     'email' => $eml,
                     'sender_email' => self::SENDER_EMAIL,
