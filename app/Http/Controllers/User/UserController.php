@@ -23,10 +23,9 @@ class UserController extends Controller
 
         return view('user.front');
     }
-    public function indexEmail()
+    public function indexHome()
     {
-//        $user = User::findOrFail(auth()->id());
-//        $emails = EmailController::getEmailData();
+
         return view('user.home');
     }
     private function checkCredit()

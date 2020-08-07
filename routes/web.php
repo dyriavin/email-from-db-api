@@ -37,7 +37,7 @@ Route::group([
     'middleware' => ['auth']
 ], function () {
 //    Route::get('/home', 'UserController@ind')->name('user.index');
-    Route::get('/home', 'UserController@indexEmail')->name('user.index');
+    Route::get('/home', 'UserController@indexHome')->name('user.index');
 });
 
 Route::group([
