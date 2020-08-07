@@ -8,3 +8,10 @@
 
     </div>
 @endif
+@if(session('success'))
+    <div class="alert alert-success" role="alert">
+        <h5 class="font-weight-bolder text-center">
+           {{session('success')}}
+        </h5>
+    </div>
+@endif
