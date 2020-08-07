@@ -16,4 +16,8 @@ class DebugController extends Controller
             'balances' => $balances
         ];
     }
+    public static function jobs(){
+        return DB::table('jobs')
+            ->get();
+    }
 }
