@@ -14,6 +14,12 @@ Route::middleware('auth')->get('/credit-fund-active-user', function () {
     return "was funded to current user";
 });
 
+Route::middleware('auth')->get('/credit-zero-balance', function () {
+    auth()->user()->credit()->update(['credit' => 0]);
+
+    return "Balance Set to zero";
+});
+
 Route::get('/home', 'HomeController@index')
     ->name('home');
 

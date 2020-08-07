@@ -59,6 +59,9 @@ class EmailController extends BaseEmailController
 
         $emails = self::getEmails($from, $to, $limit,$key);
         $emails = $emails['preview'];
+        if ($limit == 0) {
+            return view('user.error')->withErrors(['Будет доступно через 1 час']);
+        }
         return view('user.front',compact('emails','from','to','hash'));
     }
 
