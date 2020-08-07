@@ -15,7 +15,7 @@
 
     @else
         <h1> Предпросмотр списка email  </h1>
-        <span data-href="{{route('csv-export')}}/"
+        <span data-href="{{route('csv-export')}}/{{$hash}}/"
               @if(!is_null($from))
               data-date-start="{{$from}}"
               data-date-end="{{$to}}"

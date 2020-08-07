@@ -38,16 +38,16 @@ class EmailController extends BaseEmailController
 
     public function search(array $data)
     {
-        $apiKey = base64_decode($data['key']);
-
+        $key = base64_decode($data['key']);
+        $hash = $data['key'];
         $user = User::find(auth()->id());
         $limit = $user->credit->credit;
         $from = $data['start_date'];
         $to = Carbon::today()->toDateString();
 
-        $emails = self::getEmails($from, $to, $limit,$apiKey);
+        $emails = self::getEmails($from, $to, $limit,$key);
         $emails = $emails['preview'];
-        return view('user.front',compact('emails','from','to','apiKey'));
+        return view('user.front',compact('emails','from','to','hash'));
     }
 
 

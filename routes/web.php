@@ -27,7 +27,7 @@ Route::group([
         'EmailController@searchResults')
         ->name('email.result');
 
-    Route::get('/export/{from?}/{to?}',
+    Route::get('/export/{key?}/{from?}/{to?}',
         'ExportController@export')
         ->name('csv-export');
 
