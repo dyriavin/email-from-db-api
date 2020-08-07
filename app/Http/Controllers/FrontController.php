@@ -15,6 +15,9 @@ class FrontController extends Controller
     {
         return view('guest.auth');
     }
+    public function indexHome(){
+        return view('user.home');
+    }
 
     /**
      * Show the form for creating a new resource.
