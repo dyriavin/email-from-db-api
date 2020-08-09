@@ -96,26 +96,25 @@
         </div>
     </main>
 </div>
-<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script
+    src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+@if(Request::is('email-search'))
 <script>
     function exportTasks(_this) {
         window.location.href = $(_this).data('href');
     }
-    @if(Request::is('/result'))
+
     $(document).ready(function () {
         setTimeout(function(){
-            window.location.href='{{route('email.result')}}'
+            $('#result').removeClass('d-none')
+            $('#loader').addClass('d-none')
         }, 6000);
-        // $('#search').click(function(event) {
-        //     event.preventDefault()
-        //     console.log('yes')
-        //     setTimeout(20);
-        //     window.location.href='/';
-        // });
     })
-    @endif
+
 </script>
+@endif
 </body>
 </html>

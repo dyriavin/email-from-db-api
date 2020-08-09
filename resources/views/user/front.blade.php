@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('content')
-    <div class="my-container ">
+    <div id="loader" class="lds-dual-ring align-items-center mt-5">
+
+    </div>
+    <div id="result" class="my-container d-none">
 
     @if(sizeof($emails) <=0)
         <div class="alert alert-danger">
@@ -68,7 +71,5 @@
 
     </div>
 
-    <div class="lds-dual-ring mt-5">
 
-    </div>
 @endsection
