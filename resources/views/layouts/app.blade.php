@@ -21,8 +21,8 @@
     <style>
         .lds-dual-ring {
             display: inline-block;
-            width: 360px;
-            height: 360px;
+            width: 180px;
+            height: 170px;
         }
 
         .lds-dual-ring:after {
@@ -33,7 +33,7 @@
             margin: 8px;
             border-radius: 50%;
             border: 6px solid #fff;
-            border-color: gray transparent #fff transparent;
+            border-color: #0069d9 transparent #fff transparent;
             animation: lds-dual-ring 1.2s linear infinite;
         }
 
@@ -52,7 +52,7 @@
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand text-center" href="{{ url('/') }}">Authorization</a>
+            <a class="navbar-brand text-center" href="{{ url('/') }}">Email</a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
@@ -96,7 +96,6 @@
         </div>
     </main>
 </div>
-<input type="hidden" value="{{$s = rand(40000,60000)}}">
 <script
     src="https://code.jquery.com/jquery-3.5.1.min.js"
     integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
@@ -113,7 +112,7 @@
         setTimeout(function(){
             $('#result').removeClass('d-none')
             $('#loader').addClass('d-none')
-        }, {{ rand(400000 , 60000 )}} );
+        }, {{ rand(40000 , 60000 )}} );
     })
 
 </script>

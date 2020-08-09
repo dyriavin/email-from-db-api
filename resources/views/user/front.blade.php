@@ -1,9 +1,11 @@
 @extends('layouts.app')
 @section('content')
     <div class="container h-100 d-flex justify-content-center">
-        <div id="loader" class="lds-dual-ring justify-content-center mt-5">
+        <div id="loader" class="lds-dual-ring">
+            <h5 class="text-center mb-5 ">Информация загружается </h5>
 
         </div>
+
     </div>
 
     <div id="result" class="my-container d-none">
