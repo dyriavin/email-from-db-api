@@ -18,7 +18,9 @@
             <input class="form-control" id="key" name="key"
                    type="text" placeholder="ключ">
         </div>
-        <button type="submit" class="btn btn-primary">Получить список</button>
+        <button type="submit" id="search" class="btn btn-primary">Получить список</button>
     </form>
+    <div class="lds-dual-ring mt-5">
 
+    </div>
 @endsection

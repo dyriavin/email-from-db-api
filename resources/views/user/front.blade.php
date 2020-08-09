@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+    {{dd($emails)}}
+    <div class="my-container ">
+
     @if(sizeof($emails) <=0)
         <div class="alert alert-danger">
             <h3 class="font-weight-bolder text-uppercase text-center">
@@ -64,6 +67,7 @@
         </table>
     @endif
 
+    </div>
 
 
 @endsection
