@@ -2,7 +2,7 @@
 @section('content')
     <div class="container h-100 d-flex justify-content-center">
         <div id="loader" class="lds-dual-ring">
-            <h5 class="text-center mb-5 ">Информация загружается </h5>
+            <h5 class="text-center mb-5 ">Адреса загружаются </h5>
 
         </div>
 
