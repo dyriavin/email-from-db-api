@@ -45,7 +45,7 @@ Route::group([
     Route::get('/export/{key?}/{from?}/{to?}',
         'ExportController@export')
         ->name('csv-export');
-
+    Route::get('/history')->name('email.history');
 });
 Route::group([
     'namespace' => 'User',
