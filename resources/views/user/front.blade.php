@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-    {{dd($emails)}}
     <div class="my-container ">
 
     @if(sizeof($emails) <=0)
@@ -69,5 +68,7 @@
 
     </div>
 
+    <div class="lds-dual-ring mt-5">
 
+    </div>
 @endsection
