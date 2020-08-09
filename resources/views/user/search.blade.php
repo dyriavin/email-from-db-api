@@ -20,7 +20,5 @@
         </div>
         <button type="submit" id="search" class="btn btn-primary">Получить список</button>
     </form>
-    <div class="lds-dual-ring mt-5">
 
-    </div>
 @endsection

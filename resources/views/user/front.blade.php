@@ -1,7 +1,14 @@
 @extends('layouts.app')
 @section('content')
-    {{dd($emails)}}
-    <div class="my-container ">
+    <div class="container h-100 d-flex justify-content-center">
+        <div id="loader" class="lds-dual-ring">
+            <h5 class="text-center mb-5 ">Информация загружается </h5>
+
+        </div>
+
+    </div>
+
+    <div id="result" class="my-container d-none">
 
     @if(sizeof($emails) <=0)
         <div class="alert alert-danger">
