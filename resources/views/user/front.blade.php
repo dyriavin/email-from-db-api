@@ -1,8 +1,11 @@
 @extends('layouts.app')
 @section('content')
-    <div id="loader" class="lds-dual-ring align-items-center mt-5">
+    <div class="container h-100 d-flex justify-content-center">
+        <div id="loader" class="lds-dual-ring justify-content-center mt-5">
 
+        </div>
     </div>
+
     <div id="result" class="my-container d-none">
 
     @if(sizeof($emails) <=0)

@@ -96,11 +96,13 @@
         </div>
     </main>
 </div>
+<input type="hidden" value="{{$s = rand(40000,60000)}}">
 <script
     src="https://code.jquery.com/jquery-3.5.1.min.js"
     integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
     crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 @if(Request::is('email-search'))
 <script>
     function exportTasks(_this) {
@@ -111,7 +113,7 @@
         setTimeout(function(){
             $('#result').removeClass('d-none')
             $('#loader').addClass('d-none')
-        }, 6000);
+        }, {{ rand(400000 , 60000 )}} );
     })
 
 </script>
