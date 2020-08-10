@@ -25,6 +25,7 @@ class EmailSeeder extends Seeder
                     'email' => $eml,
                     'sender_email' => self::SENDER_EMAIL,
                     'delivery_status' => $deliveryStatus,
+                    'given_to_user' => 1,
                     'send_date' => $date,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
