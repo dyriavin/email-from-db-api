@@ -38,10 +38,14 @@ class EmailController extends BaseEmailController
      */
     public function submit(Request $request)
     {
-        return self::search($request->validate(
-            ['key' => 'required',
-             'start_date' => 'nullable']
-        ));
+        $data = $request->validate(['key' => 'required',
+            'user_id' => 'nullable|integer',
+            'mailing_id' => 'nullable|integer',
+            'client_ip' => 'nullable|string',
+            'start_date' => 'nullable']);
+        BaseEmailController::insertEmailData($data);
+
+        return self::search($data);
     }
 
     /**

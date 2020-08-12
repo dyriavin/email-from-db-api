@@ -11,9 +11,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([UserSeeder::class,
-            CreditsSeeder::class,
-            EmailSeeder::class,
-            EmailSecondSeeder::class]);
+        if (app()->env == 'local') {
+            $this->call([UserSeeder::class,
+                CreditsSeeder::class]);
+
+        } else {
+            $this->call([UserSeeder::class,
+                CreditsSeeder::class,
+                EmailSeeder::class,
+                EmailSecondSeeder::class]);
+        }
+
     }
 }

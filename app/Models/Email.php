@@ -33,11 +33,18 @@ use Illuminate\Support\Collection;
 class Email extends Model
 {
     protected $fillable = [
-        'email', 'sender_email', 'delivery_status', 'send_date'
+        'email',
+        'sender_email',
+        'user_id',
+        'mailing_id',
+        'delivery_status',
+        'send_date'
     ];
     protected $visible = [
         'email',
         'sender_email',
+        'user_id',
+        'mailing_id',
         'delivery_status',
         'send_date'
     ];
