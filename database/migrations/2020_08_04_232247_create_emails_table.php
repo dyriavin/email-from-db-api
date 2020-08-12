@@ -16,10 +16,15 @@ class CreateEmailsTable extends Migration
         Schema::create('emails', function (Blueprint $table) {
             $table->id();
             $table->string('email');
-            $table->string('sender_email');
             $table->string('delivery_status');
+
+            $table->string('sender_email');
+            $table->integer('user_id')->nullable();
+            $table->integer('mailing_id')->nullable();
+
             $table->date('send_date');
             $table->boolean('given_to_user')->default(false);
+
             $table->timestamps();
         });
     }
