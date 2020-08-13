@@ -108,12 +108,12 @@
         window.location.href = $(_this).data('href');
     }
 
-    $(document).ready(function () {
-        setTimeout(function(){
-            $('#result').removeClass('d-none')
-            $('#loader').addClass('d-none')
-        }, {{ rand(40000 , 60000 )}} );
-    })
+    {{--$(document).ready(function () {--}}
+    {{--    setTimeout(function(){--}}
+    {{--        $('#result').removeClass('d-none')--}}
+    {{--        $('#loader').addClass('d-none')--}}
+    {{--    }, {{ rand(40000 , 60000 )}} );--}}
+    {{--})--}}
 
 </script>
 @endif

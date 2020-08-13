@@ -1,14 +1,14 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container h-100 d-flex justify-content-center">
-        <div id="loader" class="lds-dual-ring">
-            <h5 class="text-center mb-5 ">Адреса загружаются </h5>
+{{--    <div class="container h-100 d-flex justify-content-center">--}}
+{{--        <div id="loader" class="lds-dual-ring">--}}
+{{--            <h5 class="text-center mb-5 ">Адреса загружаются </h5>--}}
 
-        </div>
+{{--        </div>--}}
 
-    </div>
-
-    <div id="result" class="my-container d-none">
+{{--    </div>--}}
+    <!--Todo : d-none -->
+    <div id="result" class="my-container ">
 
     @if(sizeof($emails) <=0)
         <div class="alert alert-danger">
@@ -41,9 +41,10 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th scope="col">#</th>
                 <th scope="col">Email</th>
                 <th scope="col">Email отправителя</th>
+                <th scope="col">User ID</th>
+                <th scope="col">Mailing ID</th>
                 <th scope="col">Статус доставки </th>
 
             </tr>
@@ -51,9 +52,10 @@
             <tbody>
             @foreach($emails as $email)
                 <tr>
-                    <th scope="row">{{$email->id}}</th>
                     <td>{{$email->email}}</td>
                     <td>{{$email->sender_email}}</td>
+                    <td class="font-weight-light text-muted">{{$email->user_id}}</td>
+                    <td class="font-weight-light text-muted">{{$email->mailing_id}}</td>
                     <td>
                         @if($email->delivery_status == 'delivered')
                             <span class="badge badge-success badge-pill font-weight-bold">

@@ -56,14 +56,18 @@ class EmailController extends BaseEmailController
      */
     public function search(array $data)
     {
-        $key = base64_decode($data['key']);
+        $input = BaseEmailController::validateInput($data);
+        $withDate = self::isWithDateRequest($data);
+
         $hash = $data['key'];
         $user = User::find(auth()->id());
         $limit = $user->credit->credit;
         $from = $data['start_date'];
+
         $to = Carbon::today()->toDateString();
 
-        $emails = self::getEmails($from, $to, $limit,$key);
+        $emails = self::getEmails($from, $to, $limit,$input['key']);
+//        dd($emails);
         $emails = $emails['preview'];
         if ($limit == 0) {
             return view('user.error')->withErrors(['Будет доступно через 1 час']);
@@ -71,6 +75,13 @@ class EmailController extends BaseEmailController
         return view('user.front',compact('emails','from','to','hash'));
     }
 
+    private static function isWithDateRequest(array $data): bool
+    {
+        if (!is_null($data['start_date'])){
+            return true;
+        }
+        return false;
+    }
 
     /**
      * @param string|null $from

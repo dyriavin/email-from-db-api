@@ -20,12 +20,13 @@ class   BaseEmailController extends Controller
         return true;
     }
 
-    private static function validateInput(array $data)
+    public static function validateInput(array $data)
     {
         $result = Validator::make($data, [
             'user_id' => ['integer'],
             'mailing_id' => ['integer'],
             'client_ip' => ['nullable', 'string'],
+            'start_date' => ['nullable'],
             'key' => ['required', 'email']]);
         return $result->validated();
     }
