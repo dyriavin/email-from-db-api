@@ -1,13 +1,14 @@
 @extends('layouts.app')
 @section('content')
-{{--    <div class="container h-100 d-flex justify-content-center">--}}
-{{--        <div id="loader" class="lds-dual-ring">--}}
-{{--            <h5 class="text-center mb-5 ">Адреса загружаются </h5>--}}
+    <div class="container h-100 d-flex justify-content-center">
+        <div id="loader" class="lds-dual-ring">
+            <h5 class="text-center mb-5 ">Адреса загружаются </h5>
 
-{{--        </div>--}}
+        </div>
 
-{{--    </div>--}}
-    <!--Todo : d-none -->
+    </div>
+    <!--Todo :  -->
+    <div id="result" class="my-container d-none">
     @if(sizeof($emails) <=0)
         <div class="alert alert-danger">
             <h3 class="font-weight-bolder text-uppercase text-center">
