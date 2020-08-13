@@ -8,8 +8,6 @@
 
 {{--    </div>--}}
     <!--Todo : d-none -->
-    <div id="result" class="my-container ">
-
     @if(sizeof($emails) <=0)
         <div class="alert alert-danger">
             <h3 class="font-weight-bolder text-uppercase text-center">

@@ -58,35 +58,24 @@ class EmailController extends BaseEmailController
     public function search(array $data)
     {
         $input = BaseEmailController::validateInput($data);
-        $withDate = self::isWithDateRequest($data);
+        $hash = base64_encode($input['key']);
 
-        $hash = $data['key'];
         $user = User::find(auth()->id());
+
         $limit = $user->credit->credit;
+
         $from = $data['start_date'];
 
         $to = Carbon::today()->toDateString();
 
-        $emails = self::getEmailsForPreview($from, $to,$input['key']);
-
-
         if ($limit == 0) {
             return view('user.error')->withErrors(['Будет доступно через 1 час']);
         }
-
-
-
+        $emails = self::getEmailsForPreview($from, $to,$input['key']);
 
         return view('user.front',compact('emails','from','to','hash'));
     }
 
-    private static function isWithDateRequest(array $data): bool
-    {
-        if (!is_null($data['start_date'])){
-            return true;
-        }
-        return false;
-    }
     private static function getEmailsForPreview(string $from = null,string $to = null,string $email = null)
     {
         if (is_null($from) || is_null($to)) {
@@ -104,10 +93,13 @@ class EmailController extends BaseEmailController
      */
     public static function getEmails(string $from = null, string $to = null, int $limit = 0, string $email = null)
     {
-        if (is_null($from) || is_null($to)) {
-            return self::fetch($limit,$email);
+        $emails = '';
+        if (is_null($from)) {
+            $emails = self::fetch($limit,$email);
+            return $emails;
         } else {
-            return self::fetchByDate($limit, $from, $to,$email);
+            $emails = self::fetchByDate($limit, $from, $to,$email);
+            return $emails;
         }
     }
 
