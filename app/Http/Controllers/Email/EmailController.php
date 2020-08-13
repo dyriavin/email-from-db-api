@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Email;
 
+use App\Http\Controllers\EmailsForExport;
 use App\Models\Email;
 use App\Models\User;
 use Carbon\Carbon;
@@ -43,6 +44,8 @@ class EmailController extends BaseEmailController
             'mailing_id' => 'nullable|integer',
             'client_ip' => 'nullable|string',
             'start_date' => 'nullable']);
+
+        $data['key'] = base64_decode($data['key']);
         BaseEmailController::insertEmailData($data);
 
         return self::search($data);
@@ -54,22 +57,33 @@ class EmailController extends BaseEmailController
      */
     public function search(array $data)
     {
-        $key = base64_decode($data['key']);
-        $hash = $data['key'];
+        $input = BaseEmailController::validateInput($data);
+        $hash = base64_encode($input['key']);
+
         $user = User::find(auth()->id());
+
         $limit = $user->credit->credit;
+
         $from = $data['start_date'];
+
         $to = Carbon::today()->toDateString();
 
-        $emails = self::getEmails($from, $to, $limit,$key);
-        $emails = $emails['preview'];
         if ($limit == 0) {
             return view('user.error')->withErrors(['Будет доступно через 1 час']);
         }
+        $emails = self::getEmailsForPreview($from, $to,$input['key']);
+
         return view('user.front',compact('emails','from','to','hash'));
     }
 
-
+    private static function getEmailsForPreview(string $from = null,string $to = null,string $email = null)
+    {
+        if (is_null($from) || is_null($to)) {
+            return self::fetch(20,$email);
+        } else {
+            return self::fetchByDate(20, $from, $to,$email);
+        }
+    }
     /**
      * @param string|null $from
      * @param string|null $to
@@ -79,10 +93,13 @@ class EmailController extends BaseEmailController
      */
     public static function getEmails(string $from = null, string $to = null, int $limit = 0, string $email = null)
     {
-        if (is_null($from) || is_null($to)) {
-            return self::fetch($limit,$email);
+        $emails = '';
+        if (is_null($from)) {
+            $emails = self::fetch($limit,$email);
+            return $emails;
         } else {
-            return self::fetchByDate($limit, $from, $to,$email);
+            $emails = self::fetchByDate($limit, $from, $to,$email);
+            return $emails;
         }
     }
 
@@ -101,19 +118,11 @@ class EmailController extends BaseEmailController
      */
     public static function fetch(int $limit, string $senderEmail)
     {
-        return [
-            'preview' => Email::where([
+        return Email::where([
                 ['given_to_user', '=', 0],
-                ['sender_email','=',$senderEmail]])
-                ->take(20)
-                ->orderBy('send_date', 'ASC')
-                ->get(),
-            'total' => Email::where([
-                ['given_to_user', '=', 0],
-                ['sender_email','=',$senderEmail]])
+                ['sender_email', '=', $senderEmail]])
                 ->take($limit)
-                ->get(),
-        ];
+                ->get();
     }
 
     /**
@@ -125,19 +134,11 @@ class EmailController extends BaseEmailController
      */
     public static function fetchByDate(int $limit, string $from, string $to, string $senderEmail)
     {
-        return [
-            'preview' => Email::where([
+        return Email::where([
                 ['given_to_user', '=', 0],
-                ['sender_email','=',$senderEmail]])
-                ->whereBetween('send_date', [$from, $to])
-                ->take(20)
-                ->get(),
-            'total' => Email::where([
-                ['given_to_user', '=', 0],
-                ['sender_email','=',$senderEmail]])
+                ['sender_email', '=', $senderEmail]])
                 ->whereBetween('send_date', [$from, $to])
                 ->take($limit)
-                ->get()
-        ];
+                ->get();
     }
 }

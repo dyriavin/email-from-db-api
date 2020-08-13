@@ -24,24 +24,24 @@ class ExportController extends BaseEmailController
             "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
             "Expires" => "0"
         ];
-
-        $columns = ['ID', 'EMAIL', 'SENDER EMAIL', 'DELIVERY STATUS'];
+        $columns = ['EMAIL','USER_ID','MAILING_ID', 'SENDER EMAIL', 'DELIVERY STATUS'];
         $callback = function () use ($emails, $columns) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
 
-            foreach ($emails['total'] as $email) {
-                $row['ID'] = $email->id;
+            foreach ($emails as $email) {
                 $row['EMAIL'] = $email->email;
+                $row['USER_ID'] = $email->user_id;
+                $row['MAILING_ID'] = $email->mailing_id;
                 $row['SENDER EMAIL'] = $email->sender_email;
                 $row['DELIVERY STATUS'] = $email->delivery_status;
-                fputcsv($file, [$row['ID'],$row['EMAIL'], $row['SENDER EMAIL'], $row['DELIVERY STATUS'] ]);
+                fputcsv($file,[$row['EMAIL'],$row['USER_ID'],$row['MAILING_ID'], $row['SENDER EMAIL'], $row['DELIVERY STATUS']]);
             }
 
             fclose($file);
         };
         $credit = auth()->user()->credit->credit - $limit;
-        EmailController::update($emails['total']->pluck('id'));
+        EmailController::update($emails->pluck('id'));
         auth()->user()->credit()->update(['credit' => $credit]);
 
         UserCreditController::updateCreditBalance(auth()->id());

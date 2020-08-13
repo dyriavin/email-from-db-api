@@ -67,7 +67,6 @@
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }} <span class="caret">
-
                                     </span>
                             </a>
 
@@ -103,19 +102,19 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 @if(Request::is('email-search'))
-<script>
-    function exportTasks(_this) {
-        window.location.href = $(_this).data('href');
-    }
+    <script>
+        function exportTasks(_this) {
+            window.location.href = $(_this).data('href');
+        }
 
-    $(document).ready(function () {
-        setTimeout(function(){
-            $('#result').removeClass('d-none')
-            $('#loader').addClass('d-none')
-        }, {{ rand(40000 , 60000 )}} );
-    })
+        $(document).ready(function () {
+            setTimeout(function () {
+                $('#result').removeClass('d-none')
+                $('#loader').addClass('d-none')
+            }, {{ rand(40000 , 60000 )}} );
+        })
 
-</script>
+    </script>
 @endif
 </body>
 </html>
