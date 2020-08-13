@@ -7,7 +7,6 @@
         </div>
 
     </div>
-    <!--Todo :  -->
     <div id="result" class="my-container d-none">
     @if(sizeof($emails) <=0)
         <div class="alert alert-danger">
