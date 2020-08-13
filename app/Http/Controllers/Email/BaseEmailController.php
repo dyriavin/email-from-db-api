@@ -10,18 +10,35 @@ class   BaseEmailController extends Controller
 {
     public static function insertEmailData(array $emailData)
     {
-        $data = Validator::make($emailData, [
-                'user_id' => ['integer'],
-                'mailing_id' => ['integer'],
-                'client_ip' => ['nullable','string'],
-                'key' => ['required','email']]);
-        $ids = Email::where('given_to_user','=',0)->take(auth()->user()->credit->credit)->pluck('id');
+        $insert = self::validateInput($emailData);
 
-        $insert = $data->valid();
-        Email::whereIn('id',$ids)->update(['user_id'=> $insert['user_id'],
-            'mailing_id' => $insert['mailing_id'],
-            'sender_email' => $insert['key']]);
+        $ids = self::fetchIds();
+
+        $data = self::updateEmails($ids,$insert);
+
         return true;
     }
+    private static function validateInput(array $data)
+    {
+        $result = Validator::make($data, [
+            'user_id' => ['integer'],
+            'mailing_id' => ['integer'],
+            'client_ip' => ['nullable','string'],
+            'key' => ['required','email']]);
+        return $result->validated();
+    }
 
+
+    private static function fetchIds()
+    {
+        $limit = auth()->user()->credit->credit;
+        return Email::where('given_to_user','=',0)->take($limit)->pluck('id');
+    }
+
+    private static function updateEmails($ids, array $data)
+    {
+       return Email::whereIn('id',$ids)->update(['user_id'=> $data['user_id'],
+            'mailing_id' => $data['mailing_id'],
+            'sender_email' => $data['key']]);
+    }
 }
