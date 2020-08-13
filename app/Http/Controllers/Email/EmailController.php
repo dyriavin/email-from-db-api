@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Email;
 
+use App\Http\Controllers\EmailsForExport;
 use App\Models\Email;
 use App\Models\User;
 use Carbon\Carbon;
@@ -66,12 +67,16 @@ class EmailController extends BaseEmailController
 
         $to = Carbon::today()->toDateString();
 
-        $emails = self::getEmails($from, $to, $limit,$input['key']);
-//        dd($emails);
-        $emails = $emails['preview'];
+        $emails = self::getEmailsForPreview($from, $to,$input['key']);
+
+
         if ($limit == 0) {
             return view('user.error')->withErrors(['Будет доступно через 1 час']);
         }
+
+
+
+
         return view('user.front',compact('emails','from','to','hash'));
     }
 
@@ -82,7 +87,14 @@ class EmailController extends BaseEmailController
         }
         return false;
     }
-
+    private static function getEmailsForPreview(string $from = null,string $to = null,string $email = null)
+    {
+        if (is_null($from) || is_null($to)) {
+            return self::fetch(20,$email);
+        } else {
+            return self::fetchByDate(20, $from, $to,$email);
+        }
+    }
     /**
      * @param string|null $from
      * @param string|null $to
@@ -114,19 +126,11 @@ class EmailController extends BaseEmailController
      */
     public static function fetch(int $limit, string $senderEmail)
     {
-        return [
-            'preview' => Email::where([
+        return Email::where([
                 ['given_to_user', '=', 0],
-                ['sender_email','=',$senderEmail]])
-                ->take(20)
-                ->orderBy('send_date', 'ASC')
-                ->get(),
-            'total' => Email::where([
-                ['given_to_user', '=', 0],
-                ['sender_email','=',$senderEmail]])
+                ['sender_email', '=', $senderEmail]])
                 ->take($limit)
-                ->get(),
-        ];
+                ->get();
     }
 
     /**
@@ -138,19 +142,11 @@ class EmailController extends BaseEmailController
      */
     public static function fetchByDate(int $limit, string $from, string $to, string $senderEmail)
     {
-        return [
-            'preview' => Email::where([
+        return Email::where([
                 ['given_to_user', '=', 0],
-                ['sender_email','=',$senderEmail]])
-                ->whereBetween('send_date', [$from, $to])
-                ->take(20)
-                ->get(),
-            'total' => Email::where([
-                ['given_to_user', '=', 0],
-                ['sender_email','=',$senderEmail]])
+                ['sender_email', '=', $senderEmail]])
                 ->whereBetween('send_date', [$from, $to])
                 ->take($limit)
-                ->get()
-        ];
+                ->get();
     }
 }
