@@ -43,6 +43,8 @@ class EmailController extends BaseEmailController
             'mailing_id' => 'nullable|integer',
             'client_ip' => 'nullable|string',
             'start_date' => 'nullable']);
+
+        $data['key'] = base64_decode($data['key']);
         BaseEmailController::insertEmailData($data);
 
         return self::search($data);
