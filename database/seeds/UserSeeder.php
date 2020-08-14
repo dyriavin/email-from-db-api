@@ -25,6 +25,14 @@ class UserSeeder extends Seeder
             [
                 'email' => 'heferttt@gmail.com',
                 'name' => 'Артём',
+                'password' => Hash::make('Karina2020'),
+                'is_admin' => false,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'email' => 'morziev@gmail.com',
+                'name' => 'Артём',
                 'password' => Hash::make('Karina2019'),
                 'is_admin' => false,
                 'created_at' => Carbon::now(),
