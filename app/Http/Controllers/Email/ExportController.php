@@ -24,7 +24,7 @@ class ExportController extends BaseEmailController
             "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
             "Expires" => "0"
         ];
-        $columns = ['EMAIL','USER_ID','MAILING_ID', 'SENDER EMAIL', 'DELIVERY STATUS'];
+        $columns = ['EMAIL','USER_ID','MAILING_ID', 'SENDER EMAIL'];
         $callback = function () use ($emails, $columns) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
@@ -34,8 +34,7 @@ class ExportController extends BaseEmailController
                 $row['USER_ID'] = $email->user_id;
                 $row['MAILING_ID'] = $email->mailing_id;
                 $row['SENDER EMAIL'] = $email->sender_email;
-                $row['DELIVERY STATUS'] = $email->delivery_status;
-                fputcsv($file,[$row['EMAIL'],$row['USER_ID'],$row['MAILING_ID'], $row['SENDER EMAIL'], $row['DELIVERY STATUS']]);
+                fputcsv($file,[$row['EMAIL'],$row['USER_ID'],$row['MAILING_ID'], $row['SENDER EMAIL']]);
             }
 
             fclose($file);
