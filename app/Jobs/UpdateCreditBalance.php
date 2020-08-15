@@ -10,11 +10,21 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * Class UpdateCreditBalance
+ * @package App\Jobs
+ */
 class UpdateCreditBalance implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    /**
+     * @var
+     */
     protected $userId;
+    /**
+     * @var int
+     */
     protected $credit;
 
     /**

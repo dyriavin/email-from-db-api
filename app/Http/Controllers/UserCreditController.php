@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\UpdateCreditBalance;
-use App\Models\UserCredit;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
+/**
+ * Class UserCreditController
+ * @package App\Http\Controllers
+ */
 class UserCreditController extends Controller
 {
 
+    /**
+     * @param int $id
+     */
     public static function updateCreditBalance(int $id)
     {
         $time = Carbon::now()->addSeconds(75);

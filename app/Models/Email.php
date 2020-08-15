@@ -32,6 +32,9 @@ use Illuminate\Support\Collection;
  */
 class Email extends Model
 {
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'email',
         'sender_email',
@@ -40,6 +43,9 @@ class Email extends Model
         'delivery_status',
         'send_date'
     ];
+    /**
+     * @var string[]
+     */
     protected $visible = [
         'email',
         'sender_email',

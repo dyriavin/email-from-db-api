@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Email;
 
-use App\Http\Controllers\EmailsForExport;
 use App\Models\Email;
 use App\Models\User;
 use Carbon\Carbon;

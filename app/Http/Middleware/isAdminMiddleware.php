@@ -4,6 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 
+/**
+ * Class isAdminMiddleware
+ * @package App\Http\Middleware
+ */
 class isAdminMiddleware
 {
     /**
