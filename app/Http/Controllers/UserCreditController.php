@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\UpdateCreditBalance;
-use App\Models\UserCredit;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 /**
  * Class UserCreditController
