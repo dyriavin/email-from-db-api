@@ -9,9 +9,19 @@ use App\Models\Email;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
+/**
+ * Class ExportController
+ * @package App\Http\Controllers\Email
+ */
 class ExportController extends BaseEmailController
 {
-    public function export(?string $hash,?string $from = null, ?string $to = null)
+    /**
+     * @param string|null $hash
+     * @param string|null $from
+     * @param string|null $to
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    public function export(?string $hash, ?string $from = null, ?string $to = null)
     {
         $key = base64_decode($hash);
         $fileName = Carbon::now()->toDateString() . "-file.csv";
@@ -44,7 +54,7 @@ class ExportController extends BaseEmailController
         auth()->user()->credit()->update(['credit' => $credit]);
 
         UserCreditController::updateCreditBalance(auth()->id());
-
+        //todo: think over the event here
         return response()->stream($callback, 200, $headers);
     }
 }
