@@ -28,7 +28,7 @@ class ExportController extends BaseEmailController
         $key = base64_decode($hash);
 
 
-        $fileName = Carbon::now()->toDateString() . "-file.csv";
+        $filename = self::generateFilename();
 
 
         $limit = auth()->user()->credit->credit;
@@ -37,16 +37,11 @@ class ExportController extends BaseEmailController
         $emails = EmailController::getEmails($from, $to, $limit,$key);
 
 
-        $headers = [
-            "Content-type" => "text/csv",
-            "Content-Disposition" => "attachment; filename=$fileName",
-            "Pragma" => "no-cache",
-            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
-            "Expires" => "0"
-        ];
+        $headers = self::headers($filename);
 
 
         $columns = ['EMAIL','USER_ID','MAILING_ID', 'SENDER EMAIL'];
+
         $callback = function () use ($emails, $columns) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
@@ -69,5 +64,20 @@ class ExportController extends BaseEmailController
         EmailController::update($emails->pluck('id'));
 
         return response()->stream($callback, 200, $headers);
+    }
+
+    private function headers(string $filename)
+    {
+        return [
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=$filename",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        ];
+    }
+    private function generateFilename()
+    {
+        return Carbon::now()->toDateString() . "-file.csv";
     }
 }
