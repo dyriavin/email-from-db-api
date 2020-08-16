@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Email;
 
+use App\Events\ChargeUser;
 use App\Http\Controllers\Email\EmailController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\UserCreditController;
 use App\Jobs\UpdateCreditBalance;
 use App\Models\Email;
@@ -24,9 +26,17 @@ class ExportController extends BaseEmailController
     public function export(?string $hash, ?string $from = null, ?string $to = null)
     {
         $key = base64_decode($hash);
+
+
         $fileName = Carbon::now()->toDateString() . "-file.csv";
+
+
         $limit = auth()->user()->credit->credit;
+
+
         $emails = EmailController::getEmails($from, $to, $limit,$key);
+
+
         $headers = [
             "Content-type" => "text/csv",
             "Content-Disposition" => "attachment; filename=$fileName",
@@ -34,6 +44,8 @@ class ExportController extends BaseEmailController
             "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
             "Expires" => "0"
         ];
+
+
         $columns = ['EMAIL','USER_ID','MAILING_ID', 'SENDER EMAIL'];
         $callback = function () use ($emails, $columns) {
             $file = fopen('php://output', 'w');
@@ -49,12 +61,13 @@ class ExportController extends BaseEmailController
 
             fclose($file);
         };
-        $credit = auth()->user()->credit->credit - $limit;
-        EmailController::update($emails->pluck('id'));
-        auth()->user()->credit()->update(['credit' => $credit]);
 
-        UserCreditController::updateCreditBalance(auth()->id());
-        //todo: think over the event here
+        $credit = UserController::creditLeft($limit);
+
+        event(new ChargeUser(auth()->user(),$limit,$credit));
+
+        EmailController::update($emails->pluck('id'));
+
         return response()->stream($callback, 200, $headers);
     }
 }
