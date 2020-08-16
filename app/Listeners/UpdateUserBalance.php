@@ -16,7 +16,8 @@ class UpdateUserBalance
      */
     public function handle($event)
     {
-        $event->user->credit()->update(['credit' => $credit]);
+        $event->user->credit()->update(['credit' => $event->credit]);
+
         UserCreditController::updateCreditBalance($event->user->id);
     }
 }

@@ -25,13 +25,12 @@ class ExportController extends BaseEmailController
      */
     public function export(?string $hash, ?string $from = null, ?string $to = null)
     {
+        $user = auth()->user();
+        $limit = $user->credit->credit;
+
         $key = base64_decode($hash);
 
-
         $filename = self::generateFilename();
-
-
-        $limit = auth()->user()->credit->credit;
 
 
         $emails = EmailController::getEmails($from, $to, $limit,$key);
@@ -59,7 +58,7 @@ class ExportController extends BaseEmailController
 
         $credit = UserController::creditLeft($limit);
 
-        event(new ChargeUser(auth()->user(),$limit,$credit));
+        event(new ChargeUser($user,$limit,$credit));
 
         EmailController::update($emails->pluck('id'));
 
