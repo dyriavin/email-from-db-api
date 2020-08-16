@@ -29,5 +29,8 @@ class UserController extends Controller
         $user = User::find(auth()->id());
 
     }
-
+    public static function creditLeft(int $limit)
+    {
+        return auth()->user()->credit->credit - $limit;
+    }
 }

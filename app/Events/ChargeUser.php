@@ -14,14 +14,19 @@ class ChargeUser
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $user;
+    public $limit;
+    public $credit;
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param $user
+     * @param $limit
      */
-    public function __construct($user)
+    public function __construct($user,$limit,$credit)
     {
         $this->user = $user;
+        $this->credit = $credit;
+        $this->limit = $limit;
     }
 
     /**
