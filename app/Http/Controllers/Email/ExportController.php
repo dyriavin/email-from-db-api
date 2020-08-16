@@ -32,12 +32,9 @@ class ExportController extends BaseEmailController
 
         $filename = self::generateFilename();
 
-
         $emails = EmailController::getEmails($from, $to, $limit,$key);
 
-
         $headers = self::headers($filename);
-
 
         $columns = ['EMAIL','USER_ID','MAILING_ID', 'SENDER EMAIL'];
 

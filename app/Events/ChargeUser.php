@@ -21,6 +21,7 @@ class ChargeUser
      *
      * @param $user
      * @param $limit
+     * @param $credit
      */
     public function __construct($user,$limit,$credit)
     {
