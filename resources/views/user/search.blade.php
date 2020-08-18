@@ -19,16 +19,16 @@
         </div>
         <div class="form-group">
             <label for="sender_email">Email</label>
-            <input type="email" class="form-control" name="sender_email" id="sender_email">
+            <input type="email" class="form-control" name="sender_email" id="sender_email" required>
         </div>
         <div class="form-row mb-2">
             <div class="col-4">
                 <label for="user_id">User ID</label>
-                <input type="number" class="form-control" name="user_id" id="user_id">
+                <input type="number" class="form-control" name="user_id" id="user_id" required>
             </div>
             <div class="col">
                 <label for="mailing_id">Mailing ID</label>
-                <input type="number" class="form-control" name="mailing_id" id="mailing_id">
+                <input type="number" class="form-control" name="mailing_id" id="mailing_id" required>
             </div>
             <div class="col">
                 <label for="client_ip">Client IP</label>
@@ -36,9 +36,9 @@
             </div>
         </div>
 
-        <a href="#" id="key_kegenerate" class="btn btn-warning font-weight-bolder"
+        <button type="submit" id="key_kegenerate" class="btn btn-warning font-weight-bolder"
            role="button"
-           aria-disabled="true">Сгенерировать ключ</a>
+           aria-disabled="true">Сгенерировать ключ</button>
         <button type="submit" id="search" class="btn btn-success font-weight-bolder d-none" disabled>Получить Email </button>
     </form>
 

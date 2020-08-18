@@ -15,13 +15,17 @@ class   BaseEmailController extends Controller
      */
     public static function insertEmailData(array $emailData)
     {
-        $insert = self::validateInput($emailData);
+        if ($emailData['sender_email'] == 'support@cslotv.com' || $emailData['sender_email'] == 'no-reply@vavada.net') {
 
-        $ids = self::fetchIds();
+            $insert = self::validateInput($emailData);
 
-        $data = self::updateEmails($ids, $insert);
+            $ids = self::fetchIds();
 
-        return true;
+            $data = self::updateEmails($ids, $insert);
+
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -36,7 +40,7 @@ class   BaseEmailController extends Controller
             'mailing_id' => ['integer'],
             'client_ip' => ['nullable', 'string'],
             'start_date' => ['nullable'],
-            'key' => ['required', 'email']]);
+            'sender_email'=>['required']]);
         return $result->validated();
     }
 
@@ -59,6 +63,6 @@ class   BaseEmailController extends Controller
     {
         return Email::whereIn('id', $ids)->update(['user_id' => $data['user_id'],
             'mailing_id' => $data['mailing_id'],
-            'sender_email' => $data['key']]);
+            'sender_email' => $data['sender_email']]);
     }
 }

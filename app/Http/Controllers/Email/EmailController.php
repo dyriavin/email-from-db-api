@@ -34,11 +34,10 @@ class EmailController extends BaseEmailController
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function submit(Request $request)
     {
-        dd($request->input());
         $data = $request->validate(['key' => 'required',
             'sender_email' => 'required',
             'user_id' => 'nullable|integer',
@@ -47,9 +46,11 @@ class EmailController extends BaseEmailController
             'start_date' => 'nullable']);
 
         $data['key'] = base64_decode($data['key']);
-        BaseEmailController::insertEmailData($data);
-
-        return self::search($data);
+        $result =  BaseEmailController::insertEmailData($data);
+        if ($result) {
+            return self::search($data);
+        }
+        return redirect()->back()->withErrors('По данным параметрам ничего не найдено ');
     }
 
     /**
@@ -59,10 +60,8 @@ class EmailController extends BaseEmailController
     public function search(array $data)
     {
         $input = BaseEmailController::validateInput($data);
-        $hash = base64_encode($input['key']);
-        dd($hash);
         $user = User::find(auth()->id());
-
+        $hash = base64_encode($input['sender_email']);
         $limit = $user->credit->credit;
 
         $from = $data['start_date'];
@@ -72,7 +71,7 @@ class EmailController extends BaseEmailController
         if ($limit == 0) {
             return view('user.error')->withErrors(['Будет доступно через 1 час']);
         }
-        $emails = self::getEmailsForPreview($from, $to,$input['key']);
+        $emails = self::getEmailsForPreview($from, $to,$input['sender_email']);
 
         return view('user.front',compact('emails','from','to','hash'));
     }
