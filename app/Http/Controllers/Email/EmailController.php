@@ -38,6 +38,7 @@ class EmailController extends BaseEmailController
      */
     public function submit(Request $request)
     {
+        dd($request->input());
         $data = $request->validate(['key' => 'required',
             'user_id' => 'nullable|integer',
             'mailing_id' => 'nullable|integer',

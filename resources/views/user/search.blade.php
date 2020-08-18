@@ -15,7 +15,7 @@
 
         <div class="form-group">
             <label for="key">Ключ</label>
-            <input type="text" name="key" class="form-control" id="key" value="" disabled>
+            <input type="text" name="key" class="form-control"  id="key" disabled>
         </div>
         <div class="form-group">
             <label for="sender_email">Email</label>
