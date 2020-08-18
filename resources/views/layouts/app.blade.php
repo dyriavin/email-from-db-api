@@ -111,12 +111,28 @@
 
 
                     if (senderEmail.length > 0 || userId.length > 0 || mailingId.length > 0) {
-                        $("#key_kegenerate").prop('disabled', true);
-                        $(this).removeClass('disabled');
+                        getApiKey(senderEmail,userId,mailingId)
+
+                        // $("#key_kegenerate").prop('disabled', true);
+                        // $(this).removeClass('disabled');
                     }
 
                 })
             })
+            function getApiKey(senderEmail,userId,mailingId){
+                $.ajax({
+                    type: 'POST',
+                    url: "{{route('api.key')}}",
+                    data: {
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        'email': senderEmail,
+                        'userId': userId,
+                        'mailingId': mailingId
+                    },
+                    success: console.log(1),
+                });
+            }
+
         </script>
     @endif
 @if(Request::is('email-search'))

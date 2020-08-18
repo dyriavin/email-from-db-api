@@ -26,6 +26,9 @@ Route::prefix('admin')->middleware('auth')
 Route::get('/home', 'HomeController@index')
     ->name('home');
 
+Route::post('/api-key','GenerateKeyController@generateHashKey')
+    ->name('api.key');
+
 Route::group([
     'namespace' => 'Email',
     'middleware' => ['auth']
