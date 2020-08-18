@@ -100,7 +100,43 @@
     integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
     crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    @if(Request::is('/'))
+        <script>
+            $(document).ready(()=> {
+                $('#key_kegenerate').click(function (event){
+                    event.preventDefault()
+                    const senderEmail = $("#sender_email").val()
+                    const userId = $("#user_id").val()
+                    const mailingId = $("#mailing_id").val()
 
+
+                    if (senderEmail.length > 0 || userId.length > 0 || mailingId.length > 0) {
+                        getApiKey(senderEmail,userId,mailingId)
+                    }
+
+                })
+            })
+            function getApiKey(senderEmail,userId,mailingId){
+                $.ajax({
+                    type: 'POST',
+                    url: "{{route('api.key')}}",
+                    data: {
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        'email': senderEmail,
+                        'userId': userId,
+                        'mailingId': mailingId
+                    },
+                    success:  function (data) {
+                        // $("#key").val(data)
+                        $('input[name=key]').attr('value', data);
+                        $("#search").removeClass('d-none').prop('disabled',false)
+                        $("#key_kegenerate").remove()
+                    },
+                });
+            }
+
+        </script>
+    @endif
 @if(Request::is('email-search'))
     <script>
         function exportTasks(_this) {
