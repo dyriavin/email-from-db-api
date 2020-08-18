@@ -7,7 +7,7 @@
     <form method="post" action="{{route('email.search')}}">
         @csrf
 
-        <div class="form-group">
+        <div class="form-group d-none">
             <label>Начальная дата:</label>
             <input type="date" name="start_date" max="2020-06-30"
                    min="2020-01-01" class="form-control">
