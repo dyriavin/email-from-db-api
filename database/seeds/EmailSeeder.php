@@ -15,7 +15,7 @@ class EmailSeeder extends Seeder
 
     public function run()
     {
-        $handle = fopen('database/seeds/emails.csv', 'r');
+        $handle = fopen('database/seeds/database.csv', 'r');
         while ($email = fgetcsv($handle)) {
             foreach ($email as $eml) {
                 $deliveryStatus = (rand(1, 50) > 10) ? "delivered" : "failed";
