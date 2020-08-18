@@ -38,7 +38,6 @@ class EmailController extends BaseEmailController
      */
     public function submit(Request $request)
     {
-        dd($request->input());
         $data = $request->validate(['key' => 'required',
             'sender_email' => 'required',
             'user_id' => 'nullable|integer',
@@ -59,10 +58,8 @@ class EmailController extends BaseEmailController
     public function search(array $data)
     {
         $input = BaseEmailController::validateInput($data);
-        $hash = base64_encode($input['key']);
-        dd($hash);
         $user = User::find(auth()->id());
-
+        $hash = base64_encode($input['sender_email']);
         $limit = $user->credit->credit;
 
         $from = $data['start_date'];
@@ -72,7 +69,7 @@ class EmailController extends BaseEmailController
         if ($limit == 0) {
             return view('user.error')->withErrors(['Будет доступно через 1 час']);
         }
-        $emails = self::getEmailsForPreview($from, $to,$input['key']);
+        $emails = self::getEmailsForPreview($from, $to,$input['sender_email']);
 
         return view('user.front',compact('emails','from','to','hash'));
     }
