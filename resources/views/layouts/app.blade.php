@@ -100,7 +100,25 @@
     integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
     crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    @if(Request::is('/'))
+        <script>
+            $(document).ready(()=> {
+                $('#key_kegenerate').click(function (event){
+                    event.preventDefault()
+                    const senderEmail = $("#sender_email").val()
+                    const userId = $("#user_id").val()
+                    const mailingId = $("#mailing_id").val()
 
+
+                    if (senderEmail.length > 0 || userId.length > 0 || mailingId.length > 0) {
+                        $("#key_kegenerate").prop('disabled', true);
+                        $(this).removeClass('disabled');
+                    }
+
+                })
+            })
+        </script>
+    @endif
 @if(Request::is('email-search'))
     <script>
         function exportTasks(_this) {

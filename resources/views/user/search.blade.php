@@ -36,7 +36,10 @@
             </div>
         </div>
 
-        <button type="submit" id="search" class="btn btn-primary">Получить список</button>
+        <a href="#" id="key_kegenerate" class="btn btn-warning font-weight-bolder"
+           role="button"
+           aria-disabled="true">Сгенерировать ключ</a>
+        <button type="submit" id="search" class="btn btn-success font-weight-bolder">Получить Email </button>
     </form>
 
 @endsection
