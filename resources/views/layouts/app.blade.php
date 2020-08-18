@@ -128,7 +128,7 @@
                     },
                     success:  function (data) {
                         // $("#key").val(data)
-                        $('input[name=key]').attr('value', data)
+                        $('input[name=key]').attr('value', data);
                         $("#search").removeClass('d-none').prop('disabled',false)
                         $("#key_kegenerate").remove()
                     },

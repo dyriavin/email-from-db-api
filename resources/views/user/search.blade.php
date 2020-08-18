@@ -15,14 +15,14 @@
 
         <div class="form-group">
             <label for="key">Ключ</label>
-            <input type="text" name="key" class="form-control"  id="key" disabled>
+            <input type="text" name="key" class="form-control" value="" id="key" readonly>
         </div>
         <div class="form-group">
             <label for="sender_email">Email</label>
             <input type="email" class="form-control" name="sender_email" id="sender_email">
         </div>
         <div class="form-row mb-2">
-            <div class="col-7">
+            <div class="col-4">
                 <label for="user_id">User ID</label>
                 <input type="number" class="form-control" name="user_id" id="user_id">
             </div>

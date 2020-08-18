@@ -40,6 +40,7 @@ class EmailController extends BaseEmailController
     {
         dd($request->input());
         $data = $request->validate(['key' => 'required',
+            'sender_email' => 'required',
             'user_id' => 'nullable|integer',
             'mailing_id' => 'nullable|integer',
             'client_ip' => 'nullable|string',
@@ -59,7 +60,7 @@ class EmailController extends BaseEmailController
     {
         $input = BaseEmailController::validateInput($data);
         $hash = base64_encode($input['key']);
-
+        dd($hash);
         $user = User::find(auth()->id());
 
         $limit = $user->credit->credit;
