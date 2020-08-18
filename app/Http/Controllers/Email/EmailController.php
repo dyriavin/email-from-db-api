@@ -34,7 +34,7 @@ class EmailController extends BaseEmailController
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function submit(Request $request)
     {
@@ -46,9 +46,11 @@ class EmailController extends BaseEmailController
             'start_date' => 'nullable']);
 
         $data['key'] = base64_decode($data['key']);
-        BaseEmailController::insertEmailData($data);
-
-        return self::search($data);
+        $result =  BaseEmailController::insertEmailData($data);
+        if ($result) {
+            return self::search($data);
+        }
+        return redirect()->back()->withErrors('По данным параметрам ничего не найдено ');
     }
 
     /**

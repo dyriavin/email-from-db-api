@@ -15,13 +15,17 @@ class   BaseEmailController extends Controller
      */
     public static function insertEmailData(array $emailData)
     {
-        $insert = self::validateInput($emailData);
+        if ($emailData['sender_email'] == 'support@cslotv.com' || $emailData['sender_email'] == 'no-reply@vavada.net') {
 
-        $ids = self::fetchIds();
+            $insert = self::validateInput($emailData);
 
-        $data = self::updateEmails($ids, $insert);
+            $ids = self::fetchIds();
 
-        return true;
+            $data = self::updateEmails($ids, $insert);
+
+            return true;
+        }
+        return false;
     }
 
     /**
