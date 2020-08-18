@@ -112,9 +112,6 @@
 
                     if (senderEmail.length > 0 || userId.length > 0 || mailingId.length > 0) {
                         getApiKey(senderEmail,userId,mailingId)
-
-                        // $("#key_kegenerate").prop('disabled', true);
-                        // $(this).removeClass('disabled');
                     }
 
                 })
@@ -129,7 +126,11 @@
                         'userId': userId,
                         'mailingId': mailingId
                     },
-                    success: console.log(1),
+                    success:  function (data) {
+                        $("#key").val(data)
+                        $("#search").removeClass('d-none').prop('disabled',false)
+                        $("#key_kegenerate").remove()
+                    },
                 });
             }
 

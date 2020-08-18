@@ -39,7 +39,7 @@
         <a href="#" id="key_kegenerate" class="btn btn-warning font-weight-bolder"
            role="button"
            aria-disabled="true">Сгенерировать ключ</a>
-        <button type="submit" id="search" class="btn btn-success font-weight-bolder">Получить Email </button>
+        <button type="submit" id="search" class="btn btn-success font-weight-bolder d-none" disabled>Получить Email </button>
     </form>
 
 @endsection
