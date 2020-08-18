@@ -43,8 +43,6 @@
                 <th scope="col">Email отправителя</th>
                 <th scope="col">User ID</th>
                 <th scope="col">Mailing ID</th>
-                <th scope="col">Статус доставки </th>
-
             </tr>
             </thead>
             <tbody>
@@ -54,18 +52,6 @@
                     <td>{{$email->sender_email}}</td>
                     <td class="font-weight-light text-muted">{{$email->user_id}}</td>
                     <td class="font-weight-light text-muted">{{$email->mailing_id}}</td>
-                    <td>
-                        @if($email->delivery_status == 'delivered')
-                            <span class="badge badge-success badge-pill font-weight-bold">
-                        {{ucfirst($email->delivery_status)}}
-                    </span>
-                        @else
-                            <span class="badge badge-danger badge-pill">
-                        {{ucfirst($email->delivery_status)}}
-                    </span>
-                        @endif
-                    </td>
-
                 </tr>
             @endforeach
 
