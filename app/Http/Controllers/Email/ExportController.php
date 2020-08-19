@@ -32,6 +32,9 @@ class ExportController extends BaseEmailController
         $key = base64_decode($hash);
         $filename = self::generateFilename();
         $senderEmail = SenderEmail::where('sender_email','=',$key)->first();
+        if ($senderEmail == null) {
+            return redirect()->route('email.index')->withErrors('Попробуй ещё раз ');
+        }
         if ($senderEmail->is_allowed) {
             $emails = EmailController::getEmails($from, $to, $limit, $key);
 
