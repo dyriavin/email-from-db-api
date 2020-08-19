@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Email;
 
+use App\Events\SenderEmailCreated;
 use App\Http\Controllers\Controller;
 use App\Models\Email;
+use App\Models\SenderEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,21 +17,20 @@ class   BaseEmailController extends Controller
      */
     public static function insertEmailData(array $emailData)
     {
-        if ($emailData['sender_email'] == 'support@cslotv.com' ||
-            $emailData['sender_email'] == 'no-reply@vavada.net' ||
-            $emailData['sender_email'] == 'info@sender.slotvpromo.club') {
-
             $insert = self::validateInput($emailData);
 
             $ids = self::fetchIds();
+            $senderEmail = auth()->user()->senderEmail()->create($emailData);
+            event(new SenderEmailCreated($senderEmail,$emailData));
 
             $data = self::updateEmails($ids, $insert);
 
             return true;
-        }
-        return false;
     }
+    private static function fetchOrCreateSenderEmail($email)
+    {
 
+    }
     /**
      * @param array $data
      * @return array

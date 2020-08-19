@@ -2,7 +2,9 @@
 @section('content')
     <h3 class="font-weight-bolder">Поиск Email адресов </h3>
     @include('messages')
+    <div id="error" >
 
+    </div>
 
     <form method="post" action="{{route('email.search')}}">
         @csrf

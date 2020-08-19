@@ -70,6 +70,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function senderEmail()
+    {
+        return$this->hasMany(SenderEmail::class);
+    }
     public function credit()
     {
         return $this->hasOne(UserCredit::class);

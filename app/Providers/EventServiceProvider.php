@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Events\ChargeUser;
+use App\Events\SenderEmailCreated;
+use App\Listeners\NotifySenderEmailCreated;
 use App\Listeners\UpdateUserBalance;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -23,6 +25,9 @@ class EventServiceProvider extends ServiceProvider
         ChargeUser::class => [
             UpdateUserBalance::class
         ],
+        SenderEmailCreated::class => [
+            NotifySenderEmailCreated::class
+        ]
     ];
 
     /**

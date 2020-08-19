@@ -95,46 +95,57 @@
         </div>
     </main>
 </div>
-<script
-    src="https://code.jquery.com/jquery-3.5.1.min.js"
-    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-    crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script>
-            $(document).ready(()=> {
-                $('#key_kegenerate').click(function (event){
-                    event.preventDefault()
-                    const senderEmail = $("#sender_email").val()
-                    const userId = $("#user_id").val()
-                    const mailingId = $("#mailing_id").val()
+
+<script>
+    $ = jQuery.noConflict();
+    $(document).ready(() => {
+        $('#key_kegenerate').click(function (event) {
+            event.preventDefault()
+            const senderEmail = $("#sender_email").val()
+            const userId = $("#user_id").val()
+            const mailingId = $("#mailing_id").val()
 
 
-                    if (senderEmail.length > 0 || userId.length > 0 || mailingId.length > 0) {
-                        getApiKey(senderEmail,userId,mailingId)
-                    }
+            if (mailingId.length < 5 || mailingId.length === 0) {
+                if ($("#mailing_error").length == 0) {
 
-                })
-            })
-            function getApiKey(senderEmail,userId,mailingId){
-                $.ajax({
-                    type: 'POST',
-                    url: "{{route('api.key')}}",
-                    data: {
-                        '_token': $('meta[name="csrf-token"]').attr('content'),
-                        'email': senderEmail,
-                        'userId': userId,
-                        'mailingId': mailingId
-                    },
-                    success:  function (data) {
-                        // $("#key").val(data)
-                        $('input[name=key]').attr('value', data);
-                        $("#search").removeClass('d-none').prop('disabled',false)
-                        $("#key_kegenerate").remove()
-                    },
-                });
+                    $("#error").append('<h4 id="mailing_error" class="text-danger">' +
+                        'длинна для mailing должна быть минимум 5 символов</h4>');
+                }
+
+
+            } else {
+                $("#mailing_error").remove()
+                if (senderEmail.length > 0 || userId.length > 0) {
+                    getApiKey(senderEmail, userId, mailingId)
+                }
             }
 
-        </script>
+        })
+    })
+
+    function getApiKey(senderEmail, userId, mailingId) {
+        $.ajax({
+            type: 'POST',
+            url: "{{route('api.key')}}",
+            data: {
+                '_token': $('meta[name="csrf-token"]').attr('content'),
+                'email': senderEmail,
+                'userId': userId,
+                'mailingId': mailingId
+            },
+            success: function (data) {
+                // $("#key").val(data)
+                $('input[name=key]').attr('value', data);
+                $("#search").removeClass('d-none').prop('disabled', false)
+                $("#key_kegenerate").remove()
+            },
+        });
+    }
+</script>
 @if(Request::is('email-search'))
     <script>
         function exportTasks(_this) {
