@@ -9,4 +9,9 @@ class SenderEmail extends Model
     protected $fillable = [
         'sender_email'
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

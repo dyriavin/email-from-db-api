@@ -15,10 +15,12 @@ class CreateSenderEmailsTable extends Migration
     {
         Schema::create('sender_emails', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
 
             $table->string('sender_email')->nullable();
             $table->boolean('is_allowed')->default(false);
 
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

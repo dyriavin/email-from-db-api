@@ -20,7 +20,7 @@ class   BaseEmailController extends Controller
             $insert = self::validateInput($emailData);
 
             $ids = self::fetchIds();
-            $senderEmail = self::fetchOrCreateSenderEmail($emailData['sender_email']);
+            $senderEmail = auth()->user()->senderEmail()->create($emailData);
             event(new SenderEmailCreated($senderEmail));
 
             $data = self::updateEmails($ids, $insert);
@@ -29,15 +29,7 @@ class   BaseEmailController extends Controller
     }
     private static function fetchOrCreateSenderEmail($email)
     {
-        $senderEmail = '';
-        try {
-            $senderEmail = SenderEmail::where(['sender_email','=',[$email]])->first();
 
-        } catch (\Exception $exception) {
-            $senderEmail = SenderEmail::create(['sender_email' => $email])->first();
-        }
-
-        return $senderEmail;
     }
     /**
      * @param array $data
