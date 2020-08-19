@@ -35,7 +35,7 @@ class UpdateCreditBalance implements ShouldQueue
     public function __construct($userId)
     {
         $this->userId = $userId;
-        $this->credit = rand(17380,24108);
+        $this->credit = rand(11000,14213);
     }
 
     /**

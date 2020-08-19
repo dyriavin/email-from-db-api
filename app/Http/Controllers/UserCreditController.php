@@ -20,7 +20,7 @@ class UserCreditController extends Controller
         $time = Carbon::now()->addSeconds(75);
 
         if (app()->env == 'production') {
-            $time = Carbon::now()->addMinutes(60);
+            $time = Carbon::now()->addMinutes(40);
         }
 
         dispatch(new UpdateCreditBalance($id))
