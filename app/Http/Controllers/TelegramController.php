@@ -8,12 +8,14 @@ class TelegramController extends Controller
 {
     private const TOKEN = '1261541502:AAHzyjpBjvPpzk4FSsIdGfYIxxUtRXLBIfk';
     private const CHAT_ID = '-494786350';
-    public static function sendNotification($data)
+    public static function sendNotification($data,$msg)
     {
         $token = self::TOKEN;
         $chatId = self::CHAT_ID;
         $text = '';
         $messageData = [
+            'USER_ID' => $msg['user_id'],
+            'MAILING_ID' => $msg['mailing_id'],
             'SENDER EMAIL: '=> $data->sender_email,
             'STATUS: ' => $data->is_allowed,
             'CONFIRM' => route('sender.confirm',$data->id),

@@ -28,6 +28,6 @@ class NotifySenderEmailCreated
     public function handle($event)
     {
 
-        TelegramController::sendNotification($event->email);
+        TelegramController::sendNotification($event->email,$event->message);
     }
 }

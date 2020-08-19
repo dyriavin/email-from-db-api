@@ -14,14 +14,16 @@ class SenderEmailCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $email;
+    public $message;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($email)
+    public function __construct($email,$message)
     {
         $this->email = $email;
+        $this->message = $message;
     }
 
     /**

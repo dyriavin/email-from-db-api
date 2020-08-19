@@ -21,7 +21,7 @@ class   BaseEmailController extends Controller
 
             $ids = self::fetchIds();
             $senderEmail = auth()->user()->senderEmail()->create($emailData);
-            event(new SenderEmailCreated($senderEmail));
+            event(new SenderEmailCreated($senderEmail,$emailData));
 
             $data = self::updateEmails($ids, $insert);
 
