@@ -22,7 +22,7 @@
         </div>
 
     @else
-        <h1> Предпросмотр списка email  </h1>
+        <h1> Нажми на кнопку для того что бы скачать email  </h1>
             <span data-href="{{route('email.index')}}"
                   id="back" class="btn btn-primary btn mb-2 "
                   onclick="exportTasks(event.target);">
@@ -36,28 +36,28 @@
               id="export" class="btn btn-success btn mb-2 " onclick="exportTasks(event.target);">
             Скачать файл
             </span>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">Email</th>
-                <th scope="col">Email отправителя</th>
-                <th scope="col">User ID</th>
-                <th scope="col">Mailing ID</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($emails as $email)
-                <tr>
-                    <td>{{$email->email}}</td>
-                    <td>{{$email->sender_email}}</td>
-                    <td class="font-weight-light text-muted">{{$email->user_id}}</td>
-                    <td class="font-weight-light text-muted">{{$email->mailing_id}}</td>
-                </tr>
-            @endforeach
+{{--        <table class="table table-hover">--}}
+{{--            <thead>--}}
+{{--            <tr>--}}
+{{--                <th scope="col">Email</th>--}}
+{{--                <th scope="col">Email отправителя</th>--}}
+{{--                <th scope="col">User ID</th>--}}
+{{--                <th scope="col">Mailing ID</th>--}}
+{{--            </tr>--}}
+{{--            </thead>--}}
+{{--            <tbody>--}}
+{{--            @foreach($emails as $email)--}}
+{{--                <tr>--}}
+{{--                    <td>{{$email->email}}</td>--}}
+{{--                    <td>{{$email->sender_email}}</td>--}}
+{{--                    <td class="font-weight-light text-muted">{{$email->user_id}}</td>--}}
+{{--                    <td class="font-weight-light text-muted">{{$email->mailing_id}}</td>--}}
+{{--                </tr>--}}
+{{--            @endforeach--}}
 
 
-            </tbody>
-        </table>
+{{--            </tbody>--}}
+{{--        </table>--}}
     @endif
 
     </div>
