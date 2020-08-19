@@ -40,8 +40,8 @@ class EmailController extends BaseEmailController
     {
         $data = $request->validate(['key' => 'required',
             'sender_email' => 'required',
-            'user_id' => 'nullable|integer',
-            'mailing_id' => 'nullable|integer',
+            'user_id' => 'nullable|numeric',
+            'mailing_id' => 'nullable|numeric',
             'client_ip' => 'nullable|string',
             'start_date' => 'nullable']);
 

@@ -33,14 +33,16 @@ class ExportController extends BaseEmailController
         $filename = self::generateFilename();
         $senderEmail = SenderEmail::where('sender_email','=',$key)->first();
         if ($senderEmail == null) {
-            return redirect()->route('email.index')->withErrors('Попробуй ещё раз ');
+            return redirect()
+                ->route('email.index')
+                ->withErrors('Попробуй ещё раз ');
         }
         if ($senderEmail->is_allowed) {
             $emails = EmailController::getEmails($from, $to, $limit, $key);
 
             $headers = self::headers($filename);
 
-            $columns = ['EMAIL', 'USER_ID', 'MAILING_ID', 'SENDER EMAIL'];
+            $columns = ['EMAIL', 'USER_ID', 'SENDER EMAIL'];
 
             $callback = function () use ($emails, $columns) {
                 $file = fopen('php://output', 'w');
@@ -49,9 +51,8 @@ class ExportController extends BaseEmailController
                 foreach ($emails as $email) {
                     $row['EMAIL'] = $email->email;
                     $row['USER_ID'] = $email->user_id;
-                    $row['MAILING_ID'] = $email->mailing_id;
                     $row['SENDER EMAIL'] = $email->sender_email;
-                    fputcsv($file, [$row['EMAIL'], $row['USER_ID'], $row['MAILING_ID'], $row['SENDER EMAIL']]);
+                    fputcsv($file, [$row['EMAIL'], $row['USER_ID'], $row['SENDER EMAIL']]);
                 }
 
                 fclose($file);

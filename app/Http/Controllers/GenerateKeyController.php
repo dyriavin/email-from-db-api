@@ -9,8 +9,8 @@ class GenerateKeyController extends Controller
     public function generateHashKey(Request $request)
     {
         $data = $request->validate(['email' => 'required',
-            'userId' => 'required|integer',
-            'mailingId' => 'required|integer']);
+            'userId' => 'required|numeric',
+            'mailingId' => 'required|numeric']);
 
         $key = $this->formatData($data);
         return str_replace('=', '', $key);

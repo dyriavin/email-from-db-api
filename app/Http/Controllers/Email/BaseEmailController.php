@@ -39,8 +39,8 @@ class   BaseEmailController extends Controller
     public static function validateInput(array $data)
     {
         $result = Validator::make($data, [
-            'user_id' => ['integer'],
-            'mailing_id' => ['integer'],
+            'user_id' => ['numeric'],
+            'mailing_id' => ['numeric'],
             'client_ip' => ['nullable', 'string'],
             'start_date' => ['nullable'],
             'sender_email' => ['required']]);
