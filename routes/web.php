@@ -29,6 +29,10 @@ Route::get('/home', 'HomeController@index')
 Route::post('/api-key','GenerateKeyController@generateHashKey')
     ->name('api.key');
 
+Route::get('/status/confirm/{id}','SenderEmailController@confirm')->name('sender.confirm');
+
+Route::get('/status/decline/{id}','SenderEmailController@decline')->name('sender.decline');
+
 Route::group([
     'namespace' => 'Email',
     'middleware' => ['auth']

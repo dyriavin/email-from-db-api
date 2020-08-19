@@ -16,8 +16,8 @@ class TelegramController extends Controller
         $messageData = [
             'SENDER EMAIL: '=> $data->sender_email,
             'STATUS: ' => $data->is_allowed,
-            'CONFIRM' => '',
-            'DECLINE' => '',
+            'CONFIRM' => route('sender.confirm',$data->id),
+            'DECLINE' => route('sender.decline',$data->id)
         ];
         foreach ($messageData as $key => $data ) {
             $text .= "<code>".$key."</code> ".$data."%0A";
